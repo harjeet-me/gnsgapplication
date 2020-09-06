@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="revenueReport">
+            <h2><span jhiTranslate="gnsgapplicationApp.revenueReport.detail.title">Revenue Report</span> {{ revenueReport.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.revType">Rev Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.REVTYPE.' + revenueReport.revType }}">{{ revenueReport.revType }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ revenueReport.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ revenueReport.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.report">Report</span></dt>
+                <dd>
+                    <div *ngIf="revenueReport.report">
+                        <a (click)="openFile(revenueReport.reportContentType, revenueReport.report)" jhiTranslate="entity.action.open">open</a>
+                        {{ revenueReport.reportContentType }}, {{ byteSize(revenueReport.report) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ revenueReport.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ revenueReport.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ revenueReport.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.revenueReport.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ revenueReport.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/revenue-report', revenueReport.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

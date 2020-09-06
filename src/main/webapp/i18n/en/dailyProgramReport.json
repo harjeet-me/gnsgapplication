@@ -1,0 +1,30 @@
+{
+  "gnsgapplicationApp": {
+    "dailyProgramReport": {
+      "home": {
+        "title": "Daily Program Reports",
+        "createLabel": "Create a new Daily Program Report",
+        "createOrEditLabel": "Create or edit a Daily Program Report",
+        "search": "Search for Daily Program Report",
+        "notFound": "No Daily Program Reports found"
+      },
+      "created": "A new Daily Program Report is created with identifier {{ param }}",
+      "updated": "A Daily Program Report is updated with identifier {{ param }}",
+      "deleted": "A Daily Program Report is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Daily Program Report {{ id }}?"
+      },
+      "detail": {
+        "title": "Daily Program Report"
+      },
+      "programType": "Program Type",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "report": "Report",
+      "createdDate": "Created Date",
+      "createdBy": "Created By",
+      "lastModifiedDate": "Last Modified Date",
+      "lastModifiedBy": "Last Modified By"
+    }
+  }
+}

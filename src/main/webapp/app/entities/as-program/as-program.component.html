@@ -1,0 +1,115 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gnsgapplicationApp.aSProgram.home.title">AS Programs</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-as-program" [routerLink]="['/as-program/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="gnsgapplicationApp.aSProgram.home.createLabel">
+            Create a new AS Program
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gnsgapplicationApp.aSProgram.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="aSPrograms?.length === 0">
+        <span jhiTranslate="gnsgapplicationApp.aSProgram.home.notFound">No aSPrograms found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="aSPrograms && aSPrograms.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="program"><span jhiTranslate="gnsgapplicationApp.aSProgram.program">Program</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="family"><span jhiTranslate="gnsgapplicationApp.aSProgram.family">Family</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="phoneNumber"><span jhiTranslate="gnsgapplicationApp.aSProgram.phoneNumber">Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="address"><span jhiTranslate="gnsgapplicationApp.aSProgram.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="startDate"><span jhiTranslate="gnsgapplicationApp.aSProgram.startDate">Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="gnsgapplicationApp.aSProgram.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="remark"><span jhiTranslate="gnsgapplicationApp.aSProgram.remark">Remark</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="bookingDate"><span jhiTranslate="gnsgapplicationApp.aSProgram.bookingDate">Booking Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="desc"><span jhiTranslate="gnsgapplicationApp.aSProgram.desc">Desc</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span jhiTranslate="gnsgapplicationApp.aSProgram.status">Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="gnsgapplicationApp.aSProgram.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="gnsgapplicationApp.aSProgram.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="gnsgapplicationApp.aSProgram.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="gnsgapplicationApp.aSProgram.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aSProgram of aSPrograms ;trackBy: trackId">
+                    <td><a [routerLink]="['/as-program', aSProgram.id, 'view']">{{ aSProgram.id }}</a></td>
+                    <td jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + aSProgram.program }}">{{ aSProgram.program }}</td>
+                    <td>{{ aSProgram.family }}</td>
+                    <td>{{ aSProgram.phoneNumber }}</td>
+                    <td>{{ aSProgram.address }}</td>
+                    <td>{{ aSProgram.startDate | date:'mediumDate' }}</td>
+                    <td>{{ aSProgram.endDate | date:'mediumDate' }}</td>
+                    <td>{{ aSProgram.remark }}</td>
+                    <td>{{ aSProgram.bookingDate | date:'medium' }}</td>
+                    <td>{{ aSProgram.desc }}</td>
+                    <td jhiTranslate="{{ 'gnsgapplicationApp.EventStatus.' + aSProgram.status }}">{{ aSProgram.status }}</td>
+                    <td>{{ aSProgram.createdDate | date:'medium' }}</td>
+                    <td>{{ aSProgram.createdBy }}</td>
+                    <td>{{ aSProgram.lastModifiedDate | date:'medium' }}</td>
+                    <td>{{ aSProgram.lastModifiedBy }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/as-program', aSProgram.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/as-program', aSProgram.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(aSProgram)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="aSPrograms && aSPrograms.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="pRoul">
+            <h2><span jhiTranslate="gnsgapplicationApp.pRoul.detail.title">P Roul</span> {{ pRoul.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.name" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.name' | translate">Name</span></dt>
+                <dd>
+                    <span>{{ pRoul.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.desc">Desc</span></dt>
+                <dd>
+                    <span>{{ pRoul.desc }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.totalRoul">Total Roul</span></dt>
+                <dd>
+                    <span>{{ pRoul.totalRoul }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ pRoul.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ pRoul.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ pRoul.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ pRoul.lastModifiedBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathi">Pathi</span></dt>
+                <dd>
+                    <div *ngIf="pRoul.pathi">
+                        <a [routerLink]="['/sevadar', pRoul.pathi?.id, 'view']">{{ pRoul.pathi?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.prog">Prog</span></dt>
+                <dd>
+                    <div *ngIf="pRoul.prog">
+                        <a [routerLink]="['/as-program', pRoul.prog?.id, 'view']">{{ pRoul.prog?.desc }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/p-roul', pRoul.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

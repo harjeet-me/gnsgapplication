@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="pathReport">
+            <h2><span jhiTranslate="gnsgapplicationApp.pathReport.detail.title">Path Report</span> {{ pathReport.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.pathType">Path Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + pathReport.pathType }}">{{ pathReport.pathType }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ pathReport.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ pathReport.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.report">Report</span></dt>
+                <dd>
+                    <div *ngIf="pathReport.report">
+                        <a (click)="openFile(pathReport.reportContentType, pathReport.report)" jhiTranslate="entity.action.open">open</a>
+                        {{ pathReport.reportContentType }}, {{ byteSize(pathReport.report) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ pathReport.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ pathReport.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ pathReport.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ pathReport.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/path-report', pathReport.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

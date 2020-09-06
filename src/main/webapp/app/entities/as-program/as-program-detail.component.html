@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="aSProgram">
+            <h2><span jhiTranslate="gnsgapplicationApp.aSProgram.detail.title">AS Program</span> {{ aSProgram.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.program">Program</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + aSProgram.program }}">{{ aSProgram.program }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.family">Family</span></dt>
+                <dd>
+                    <span>{{ aSProgram.family }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.phoneNumber">Phone Number</span></dt>
+                <dd>
+                    <span>{{ aSProgram.phoneNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.address">Address</span></dt>
+                <dd>
+                    <span>{{ aSProgram.address }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ aSProgram.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ aSProgram.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.remark">Remark</span></dt>
+                <dd>
+                    <span>{{ aSProgram.remark }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.bookingDate">Booking Date</span></dt>
+                <dd>
+                    <span>{{ aSProgram.bookingDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.desc">Desc</span></dt>
+                <dd>
+                    <span>{{ aSProgram.desc }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.EventStatus.' + aSProgram.status }}">{{ aSProgram.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ aSProgram.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ aSProgram.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ aSProgram.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ aSProgram.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/as-program', aSProgram.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

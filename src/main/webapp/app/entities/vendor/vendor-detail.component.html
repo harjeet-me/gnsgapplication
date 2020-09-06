@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="vendor">
+            <h2><span jhiTranslate="gnsgapplicationApp.vendor.detail.title">Vendor</span> {{ vendor.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.vendor.name">Name</span></dt>
+                <dd>
+                    <span>{{ vendor.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.vendor.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ vendor.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.vendor.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ vendor.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.vendor.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ vendor.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.vendor.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ vendor.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/vendor', vendor.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="expenseReport">
+            <h2><span jhiTranslate="gnsgapplicationApp.expenseReport.detail.title">Expense Report</span> {{ expenseReport.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.expType">Exp Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.EXPTYPE.' + expenseReport.expType }}">{{ expenseReport.expType }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ expenseReport.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ expenseReport.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.report">Report</span></dt>
+                <dd>
+                    <div *ngIf="expenseReport.report">
+                        <a (click)="openFile(expenseReport.reportContentType, expenseReport.report)" jhiTranslate="entity.action.open">open</a>
+                        {{ expenseReport.reportContentType }}, {{ byteSize(expenseReport.report) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ expenseReport.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ expenseReport.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ expenseReport.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.expenseReport.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ expenseReport.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/expense-report', expenseReport.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
