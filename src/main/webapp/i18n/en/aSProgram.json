@@ -1,0 +1,37 @@
+{
+  "gnsgapplicationApp": {
+    "aSProgram": {
+      "home": {
+        "title": "AS Programs",
+        "createLabel": "Create a new AS Program",
+        "createOrEditLabel": "Create or edit a AS Program",
+        "search": "Search for AS Program",
+        "notFound": "No AS Programs found"
+      },
+      "created": "A new AS Program is created with identifier {{ param }}",
+      "updated": "A AS Program is updated with identifier {{ param }}",
+      "deleted": "A AS Program is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete AS Program {{ id }}?"
+      },
+      "detail": {
+        "title": "AS Program"
+      },
+      "program": "Program",
+      "family": "Family",
+      "phoneNumber": "Phone Number",
+      "address": "Address",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "remark": "Remark",
+      "bookingDate": "Booking Date",
+      "desc": "Desc",
+      "status": "Status",
+      "createdDate": "Created Date",
+      "createdBy": "Created By",
+      "lastModifiedDate": "Last Modified Date",
+      "lastModifiedBy": "Last Modified By",
+      "pRoul": "P Roul"
+    }
+  }
+}

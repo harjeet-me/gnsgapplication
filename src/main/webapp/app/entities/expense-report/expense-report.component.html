@@ -1,0 +1,96 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gnsgapplicationApp.expenseReport.home.title">Expense Reports</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-expense-report" [routerLink]="['/expense-report/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="gnsgapplicationApp.expenseReport.home.createLabel">
+            Create a new Expense Report
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gnsgapplicationApp.expenseReport.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="expenseReports?.length === 0">
+        <span jhiTranslate="gnsgapplicationApp.expenseReport.home.notFound">No expenseReports found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="expenseReports && expenseReports.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.expType">Exp Type</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.startDate">Start Date</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.endDate">End Date</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.report">Report</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.createdDate">Created Date</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.createdBy">Created By</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.lastModifiedDate">Last Modified Date</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.expenseReport.lastModifiedBy">Last Modified By</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let expenseReport of expenseReports ;trackBy: trackId">
+                    <td><a [routerLink]="['/expense-report', expenseReport.id, 'view']">{{ expenseReport.id }}</a></td>
+                    <td jhiTranslate="{{ 'gnsgapplicationApp.EXPTYPE.' + expenseReport.expType }}">{{ expenseReport.expType }}</td>
+                    <td>{{ expenseReport.startDate | date:'mediumDate' }}</td>
+                    <td>{{ expenseReport.endDate | date:'mediumDate' }}</td>
+                    <td>
+                        <a *ngIf="expenseReport.report" (click)="openFile(expenseReport.reportContentType, expenseReport.report)" jhiTranslate="entity.action.open">open</a>
+                        <span *ngIf="expenseReport.report">{{ expenseReport.reportContentType }}, {{ byteSize(expenseReport.report) }}</span>
+                    </td>
+                    <td>{{ expenseReport.createdDate | date:'medium' }}</td>
+                    <td>{{ expenseReport.createdBy }}</td>
+                    <td>{{ expenseReport.lastModifiedDate | date:'medium' }}</td>
+                    <td>{{ expenseReport.lastModifiedBy }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/expense-report', expenseReport.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/expense-report', expenseReport.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(expenseReport)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

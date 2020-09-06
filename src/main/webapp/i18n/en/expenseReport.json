@@ -1,0 +1,30 @@
+{
+  "gnsgapplicationApp": {
+    "expenseReport": {
+      "home": {
+        "title": "Expense Reports",
+        "createLabel": "Create a new Expense Report",
+        "createOrEditLabel": "Create or edit a Expense Report",
+        "search": "Search for Expense Report",
+        "notFound": "No Expense Reports found"
+      },
+      "created": "A new Expense Report is created with identifier {{ param }}",
+      "updated": "A Expense Report is updated with identifier {{ param }}",
+      "deleted": "A Expense Report is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Expense Report {{ id }}?"
+      },
+      "detail": {
+        "title": "Expense Report"
+      },
+      "expType": "Exp Type",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "report": "Report",
+      "createdDate": "Created Date",
+      "createdBy": "Created By",
+      "lastModifiedDate": "Last Modified Date",
+      "lastModifiedBy": "Last Modified By"
+    }
+  }
+}

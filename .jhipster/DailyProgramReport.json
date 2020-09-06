@@ -1,0 +1,51 @@
+{
+  "name": "DailyProgramReport",
+  "fields": [
+    {
+      "fieldName": "programType",
+      "fieldType": "EVENTTYPE",
+      "fieldValues": "SUKHMANI_SAHIB,SUKHMANI_SAHIB_AT_HOME,FUNERAL_SEHAJ_PATH_BHOG,AKHAND_PATH_SAHIB,SEHAJ_PATH_START,LANGAR,KIRTAN,SEHAJ_PATH_BHOG,DEG_SEVA"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "report",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200906021336",
+  "entityTableName": "daily_program_report",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
