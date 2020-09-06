@@ -1,0 +1,58 @@
+{
+  "name": "Expense",
+  "fields": [
+    {
+      "fieldName": "expType",
+      "fieldType": "EXPTYPE",
+      "fieldValues": "INVOICE,RECIEPT,VOUCHER"
+    },
+    {
+      "fieldName": "amt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "desc",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "vendor",
+      "otherEntityRelationshipName": "expense",
+      "relationshipName": "vendor",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20200906021319",
+  "entityTableName": "expense",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="dailyProgramReport">
+            <h2><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.detail.title">Daily Program Report</span> {{ dailyProgramReport.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.programType">Program Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.EVENTTYPE.' + dailyProgramReport.programType }}">{{ dailyProgramReport.programType }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.report">Report</span></dt>
+                <dd>
+                    <div *ngIf="dailyProgramReport.report">
+                        <a (click)="openFile(dailyProgramReport.reportContentType, dailyProgramReport.report)" jhiTranslate="entity.action.open">open</a>
+                        {{ dailyProgramReport.reportContentType }}, {{ byteSize(dailyProgramReport.report) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.dailyProgramReport.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ dailyProgramReport.lastModifiedBy }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/daily-program-report', dailyProgramReport.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "gnsgapplicationApp": {
+    "REVTYPE": {
+      "null": "",
+      "PROGRAM": "PROGRAM",
+      "GOLAK": "GOLAK",
+      "SEHAJ_PATH_BHETA": "SEHAJ_PATH_BHETA"
+    }
+  }
+}

@@ -49,6 +49,21 @@ public class CacheConfiguration {
             createCache(cm, org.gnsg.gms.domain.User.class.getName() + ".authorities");
             createCache(cm, org.gnsg.gms.domain.PersistentToken.class.getName());
             createCache(cm, org.gnsg.gms.domain.User.class.getName() + ".persistentTokens");
+            createCache(cm, org.gnsg.gms.domain.Program.class.getName());
+            createCache(cm, org.gnsg.gms.domain.DailyProgramReport.class.getName());
+            createCache(cm, org.gnsg.gms.domain.PathReport.class.getName());
+            createCache(cm, org.gnsg.gms.domain.ASProgram.class.getName());
+            createCache(cm, org.gnsg.gms.domain.ASProgram.class.getName() + ".pRouls");
+            createCache(cm, org.gnsg.gms.domain.ExpenseReport.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Expense.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Vendor.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Vendor.class.getName() + ".expenses");
+            createCache(cm, org.gnsg.gms.domain.Revenue.class.getName());
+            createCache(cm, org.gnsg.gms.domain.RevenueReport.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Task.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Sevadar.class.getName());
+            createCache(cm, org.gnsg.gms.domain.Sevadar.class.getName() + ".programs");
+            createCache(cm, org.gnsg.gms.domain.PRoul.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
