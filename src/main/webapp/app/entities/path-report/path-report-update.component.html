@@ -21,6 +21,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathiName" for="field_pathiName">Pathi Name</label>
+                    <input type="text" class="form-control" name="pathiName" id="field_pathiName"
+                           formControlName="pathiName"/>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathType" for="field_pathType">Path Type</label>
                     <select class="form-control" name="pathType" formControlName="pathType" id="field_pathType">
                         <option value="SEHAJ_PATH">{{ 'gnsgapplicationApp.PROGTYPE.SEHAJ_PATH' | translate }}</option>

@@ -7,6 +7,10 @@
       "fieldValues": "ALL,PATHI_SINGH_NAME,FAMILY_NAME"
     },
     {
+      "fieldName": "pathiName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "pathType",
       "fieldType": "PROGTYPE",
       "fieldValues": "SEHAJ_PATH,AKHAND_PATH"

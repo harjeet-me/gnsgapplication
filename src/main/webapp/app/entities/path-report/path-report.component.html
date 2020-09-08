@@ -42,6 +42,7 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.searchBy">Search By</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.pathiName">Pathi Name</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.pathType">Path Type</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.startDate">Start Date</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.endDate">End Date</span></th>
@@ -58,6 +59,7 @@
                 <tr *ngFor="let pathReport of pathReports ;trackBy: trackId">
                     <td><a [routerLink]="['/path-report', pathReport.id, 'view']">{{ pathReport.id }}</a></td>
                     <td jhiTranslate="{{ 'gnsgapplicationApp.PATHSEARCHBY.' + pathReport.searchBy }}">{{ pathReport.searchBy }}</td>
+                    <td>{{ pathReport.pathiName }}</td>
                     <td jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + pathReport.pathType }}">{{ pathReport.pathType }}</td>
                     <td>{{ pathReport.startDate | date:'mediumDate' }}</td>
                     <td>{{ pathReport.endDate | date:'mediumDate' }}</td>
