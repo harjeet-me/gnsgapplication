@@ -1,19 +1,21 @@
 package org.gnsg.gms.service.impl;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.gnsg.gms.service.RevenueService;
+import org.gnsg.gms.domain.Revenue;
+import org.gnsg.gms.repository.RevenueRepository;
+import org.gnsg.gms.repository.search.RevenueSearchRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import org.gnsg.gms.domain.Revenue;
-import org.gnsg.gms.repository.RevenueRepository;
-import org.gnsg.gms.repository.search.RevenueSearchRepository;
-import org.gnsg.gms.service.RevenueService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Revenue}.
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class RevenueServiceImpl implements RevenueService {
+
     private final Logger log = LoggerFactory.getLogger(RevenueServiceImpl.class);
 
     private final RevenueRepository revenueRepository;
@@ -47,6 +50,7 @@ public class RevenueServiceImpl implements RevenueService {
         return revenueRepository.findAll();
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Revenue> findOne(Long id) {
@@ -67,6 +71,6 @@ public class RevenueServiceImpl implements RevenueService {
         log.debug("Request to search Revenues for query {}", query);
         return StreamSupport
             .stream(revenueSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        .collect(Collectors.toList());
     }
 }

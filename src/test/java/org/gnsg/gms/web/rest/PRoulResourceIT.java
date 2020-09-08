@@ -1,29 +1,15 @@
 package org.gnsg.gms.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-import javax.persistence.EntityManager;
 import org.gnsg.gms.GnsgapplicationApp;
 import org.gnsg.gms.domain.PRoul;
 import org.gnsg.gms.repository.PRoulRepository;
 import org.gnsg.gms.repository.search.PRoulSearchRepository;
 import org.gnsg.gms.service.PRoulService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +20,21 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link PRoulResource} REST controller.
@@ -43,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 public class PRoulResourceIT {
+
     private static final String DEFAULT_PATH_NAME = "AAAAAAAAAA";
     private static final String UPDATED_PATH_NAME = "BBBBBBBBBB";
 
@@ -111,7 +113,6 @@ public class PRoulResourceIT {
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
         return pRoul;
     }
-
     /**
      * Create an updated entity for this test.
      *
@@ -142,10 +143,9 @@ public class PRoulResourceIT {
     public void createPRoul() throws Exception {
         int databaseSizeBeforeCreate = pRoulRepository.findAll().size();
         // Create the PRoul
-        restPRoulMockMvc
-            .perform(
-                post("/api/p-rouls").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(pRoul))
-            )
+        restPRoulMockMvc.perform(post("/api/p-rouls").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(pRoul)))
             .andExpect(status().isCreated());
 
         // Validate the PRoul in the database
@@ -175,10 +175,9 @@ public class PRoulResourceIT {
         pRoul.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restPRoulMockMvc
-            .perform(
-                post("/api/p-rouls").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(pRoul))
-            )
+        restPRoulMockMvc.perform(post("/api/p-rouls").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(pRoul)))
             .andExpect(status().isBadRequest());
 
         // Validate the PRoul in the database
@@ -189,6 +188,7 @@ public class PRoulResourceIT {
         verify(mockPRoulSearchRepository, times(0)).save(pRoul);
     }
 
+
     @Test
     @Transactional
     public void getAllPRouls() throws Exception {
@@ -196,8 +196,7 @@ public class PRoulResourceIT {
         pRoulRepository.saveAndFlush(pRoul);
 
         // Get all the pRoulList
-        restPRoulMockMvc
-            .perform(get("/api/p-rouls?sort=id,desc"))
+        restPRoulMockMvc.perform(get("/api/p-rouls?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pRoul.getId().intValue())))
@@ -211,7 +210,7 @@ public class PRoulResourceIT {
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
-
+    
     @Test
     @Transactional
     public void getPRoul() throws Exception {
@@ -219,8 +218,7 @@ public class PRoulResourceIT {
         pRoulRepository.saveAndFlush(pRoul);
 
         // Get the pRoul
-        restPRoulMockMvc
-            .perform(get("/api/p-rouls/{id}", pRoul.getId()))
+        restPRoulMockMvc.perform(get("/api/p-rouls/{id}", pRoul.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(pRoul.getId().intValue()))
@@ -234,12 +232,12 @@ public class PRoulResourceIT {
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
-
     @Test
     @Transactional
     public void getNonExistingPRoul() throws Exception {
         // Get the pRoul
-        restPRoulMockMvc.perform(get("/api/p-rouls/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+        restPRoulMockMvc.perform(get("/api/p-rouls/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -265,13 +263,9 @@ public class PRoulResourceIT {
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
-        restPRoulMockMvc
-            .perform(
-                put("/api/p-rouls")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedPRoul))
-            )
+        restPRoulMockMvc.perform(put("/api/p-rouls").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPRoul)))
             .andExpect(status().isOk());
 
         // Validate the PRoul in the database
@@ -298,10 +292,9 @@ public class PRoulResourceIT {
         int databaseSizeBeforeUpdate = pRoulRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restPRoulMockMvc
-            .perform(
-                put("/api/p-rouls").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(pRoul))
-            )
+        restPRoulMockMvc.perform(put("/api/p-rouls").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(pRoul)))
             .andExpect(status().isBadRequest());
 
         // Validate the PRoul in the database
@@ -321,8 +314,8 @@ public class PRoulResourceIT {
         int databaseSizeBeforeDelete = pRoulRepository.findAll().size();
 
         // Delete the pRoul
-        restPRoulMockMvc
-            .perform(delete("/api/p-rouls/{id}", pRoul.getId()).with(csrf()).accept(MediaType.APPLICATION_JSON))
+        restPRoulMockMvc.perform(delete("/api/p-rouls/{id}", pRoul.getId()).with(csrf())
+            .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -343,8 +336,7 @@ public class PRoulResourceIT {
             .thenReturn(new PageImpl<>(Collections.singletonList(pRoul), PageRequest.of(0, 1), 1));
 
         // Search the pRoul
-        restPRoulMockMvc
-            .perform(get("/api/_search/p-rouls?query=id:" + pRoul.getId()))
+        restPRoulMockMvc.perform(get("/api/_search/p-rouls?query=id:" + pRoul.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pRoul.getId().intValue())))

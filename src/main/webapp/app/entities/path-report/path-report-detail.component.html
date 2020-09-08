@@ -8,6 +8,10 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.searchBy">Search By</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'gnsgapplicationApp.PATHSEARCHBY.' + pathReport.searchBy }}">{{ pathReport.searchBy }}</span>
+                </dd>
                 <dt><span jhiTranslate="gnsgapplicationApp.pathReport.pathType">Path Type</span></dt>
                 <dd>
                     <span jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + pathReport.pathType }}">{{ pathReport.pathType }}</span>
@@ -42,6 +46,12 @@
                 <dt><span jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
                     <span>{{ pathReport.lastModifiedBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pathReport.pathi">Pathi</span></dt>
+                <dd>
+                    <div *ngIf="pathReport.pathi">
+                        <a [routerLink]="['/sevadar', pathReport.pathi?.id, 'view']">{{ pathReport.pathi?.name }}</a>
+                    </div>
                 </dd>
             </dl>
 

@@ -2,13 +2,15 @@ package org.gnsg.gms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.persistence.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A PRoul.
@@ -18,6 +20,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "proul")
 public class PRoul implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -214,7 +217,6 @@ public class PRoul implements Serializable {
     public void setProg(ASProgram aSProgram) {
         this.prog = aSProgram;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

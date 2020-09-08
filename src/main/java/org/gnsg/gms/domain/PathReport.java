@@ -1,5 +1,6 @@
 package org.gnsg.gms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,6 +10,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+
+import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
 
 import org.gnsg.gms.domain.enumeration.PROGTYPE;
 
@@ -26,6 +29,10 @@ public class PathReport implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "search_by")
+    private PATHSEARCHBY searchBy;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "path_type")
@@ -56,6 +63,10 @@ public class PathReport implements Serializable {
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = "pathReports", allowSetters = true)
+    private Sevadar pathi;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -63,6 +74,19 @@ public class PathReport implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PATHSEARCHBY getSearchBy() {
+        return searchBy;
+    }
+
+    public PathReport searchBy(PATHSEARCHBY searchBy) {
+        this.searchBy = searchBy;
+        return this;
+    }
+
+    public void setSearchBy(PATHSEARCHBY searchBy) {
+        this.searchBy = searchBy;
     }
 
     public PROGTYPE getPathType() {
@@ -181,6 +205,19 @@ public class PathReport implements Serializable {
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
+
+    public Sevadar getPathi() {
+        return pathi;
+    }
+
+    public PathReport pathi(Sevadar sevadar) {
+        this.pathi = sevadar;
+        return this;
+    }
+
+    public void setPathi(Sevadar sevadar) {
+        this.pathi = sevadar;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -204,6 +241,7 @@ public class PathReport implements Serializable {
     public String toString() {
         return "PathReport{" +
             "id=" + getId() +
+            ", searchBy='" + getSearchBy() + "'" +
             ", pathType='" + getPathType() + "'" +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +

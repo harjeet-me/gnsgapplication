@@ -17,6 +17,7 @@
       "detail": {
         "title": "Path Report"
       },
+      "searchBy": "Search By",
       "pathType": "Path Type",
       "startDate": "Start Date",
       "endDate": "End Date",
@@ -24,7 +25,8 @@
       "createdDate": "Created Date",
       "createdBy": "Created By",
       "lastModifiedDate": "Last Modified Date",
-      "lastModifiedBy": "Last Modified By"
+      "lastModifiedBy": "Last Modified By",
+      "pathi": "Pathi"
     }
   }
 }

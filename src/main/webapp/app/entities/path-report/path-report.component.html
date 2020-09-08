@@ -41,6 +41,7 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.searchBy">Search By</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.pathType">Path Type</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.startDate">Start Date</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.endDate">End Date</span></th>
@@ -49,12 +50,14 @@
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.createdBy">Created By</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedDate">Last Modified Date</span></th>
                     <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedBy">Last Modified By</span></th>
+                    <th scope="col" ><span jhiTranslate="gnsgapplicationApp.pathReport.pathi">Pathi</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let pathReport of pathReports ;trackBy: trackId">
                     <td><a [routerLink]="['/path-report', pathReport.id, 'view']">{{ pathReport.id }}</a></td>
+                    <td jhiTranslate="{{ 'gnsgapplicationApp.PATHSEARCHBY.' + pathReport.searchBy }}">{{ pathReport.searchBy }}</td>
                     <td jhiTranslate="{{ 'gnsgapplicationApp.PROGTYPE.' + pathReport.pathType }}">{{ pathReport.pathType }}</td>
                     <td>{{ pathReport.startDate | date:'mediumDate' }}</td>
                     <td>{{ pathReport.endDate | date:'mediumDate' }}</td>
@@ -66,6 +69,11 @@
                     <td>{{ pathReport.createdBy }}</td>
                     <td>{{ pathReport.lastModifiedDate | date:'medium' }}</td>
                     <td>{{ pathReport.lastModifiedBy }}</td>
+                    <td>
+                        <div *ngIf="pathReport.pathi">
+                            <a [routerLink]="['/sevadar', pathReport.pathi?.id, 'view']" >{{ pathReport.pathi?.name }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

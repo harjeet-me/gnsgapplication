@@ -29,6 +29,7 @@
       "lastModifiedDate": "Last Modified Date",
       "lastModifiedBy": "Last Modified By",
       "program": "Program",
+      "pathReport": "Path Report",
       "help": {
         "name": "The firstname attribute."
       }
