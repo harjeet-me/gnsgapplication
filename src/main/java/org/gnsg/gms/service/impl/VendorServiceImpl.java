@@ -1,21 +1,19 @@
 package org.gnsg.gms.service.impl;
 
-import org.gnsg.gms.service.VendorService;
-import org.gnsg.gms.domain.Vendor;
-import org.gnsg.gms.repository.VendorRepository;
-import org.gnsg.gms.repository.search.VendorSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.gnsg.gms.domain.Vendor;
+import org.gnsg.gms.repository.VendorRepository;
+import org.gnsg.gms.repository.search.VendorSearchRepository;
+import org.gnsg.gms.service.VendorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Vendor}.
@@ -23,7 +21,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Service
 @Transactional
 public class VendorServiceImpl implements VendorService {
-
     private final Logger log = LoggerFactory.getLogger(VendorServiceImpl.class);
 
     private final VendorRepository vendorRepository;
@@ -50,7 +47,6 @@ public class VendorServiceImpl implements VendorService {
         return vendorRepository.findAll();
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Optional<Vendor> findOne(Long id) {
@@ -71,6 +67,6 @@ public class VendorServiceImpl implements VendorService {
         log.debug("Request to search Vendors for query {}", query);
         return StreamSupport
             .stream(vendorSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }

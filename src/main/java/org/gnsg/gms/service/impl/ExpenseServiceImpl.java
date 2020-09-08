@@ -1,21 +1,19 @@
 package org.gnsg.gms.service.impl;
 
-import org.gnsg.gms.service.ExpenseService;
-import org.gnsg.gms.domain.Expense;
-import org.gnsg.gms.repository.ExpenseRepository;
-import org.gnsg.gms.repository.search.ExpenseSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.gnsg.gms.domain.Expense;
+import org.gnsg.gms.repository.ExpenseRepository;
+import org.gnsg.gms.repository.search.ExpenseSearchRepository;
+import org.gnsg.gms.service.ExpenseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Expense}.
@@ -23,7 +21,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Service
 @Transactional
 public class ExpenseServiceImpl implements ExpenseService {
-
     private final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
 
     private final ExpenseRepository expenseRepository;
@@ -50,7 +47,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.findAll();
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Optional<Expense> findOne(Long id) {
@@ -71,6 +67,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         log.debug("Request to search Expenses for query {}", query);
         return StreamSupport
             .stream(expenseSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }
