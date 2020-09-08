@@ -25,12 +25,15 @@ export class PRoulUpdateComponent implements OnInit {
   isSaving = false;
   pathis: ISevadar[] = [];
   asprograms: IASProgram[] = [];
+  bhogDateDp: any;
 
   editForm = this.fb.group({
     id: [],
-    name: [],
+    pathName: [],
     desc: [],
     totalRoul: [],
+    totalAmt: [],
+    bhogDate: [],
     createdDate: [],
     createdBy: [],
     lastModifiedDate: [],
@@ -86,9 +89,11 @@ export class PRoulUpdateComponent implements OnInit {
   updateForm(pRoul: IPRoul): void {
     this.editForm.patchValue({
       id: pRoul.id,
-      name: pRoul.name,
+      pathName: pRoul.pathName,
       desc: pRoul.desc,
       totalRoul: pRoul.totalRoul,
+      totalAmt: pRoul.totalAmt,
+      bhogDate: pRoul.bhogDate,
       createdDate: pRoul.createdDate ? pRoul.createdDate.format(DATE_TIME_FORMAT) : null,
       createdBy: pRoul.createdBy,
       lastModifiedDate: pRoul.lastModifiedDate ? pRoul.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
@@ -116,9 +121,11 @@ export class PRoulUpdateComponent implements OnInit {
     return {
       ...new PRoul(),
       id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
+      pathName: this.editForm.get(['pathName'])!.value,
       desc: this.editForm.get(['desc'])!.value,
       totalRoul: this.editForm.get(['totalRoul'])!.value,
+      totalAmt: this.editForm.get(['totalAmt'])!.value,
+      bhogDate: this.editForm.get(['bhogDate'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
         : undefined,

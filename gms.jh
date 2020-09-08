@@ -189,9 +189,11 @@ entity PRoul {
 	/**
 	* The firstname attribute.
 	*/
-    name String
+    pathName String
 	desc String,
-	totalRoul String ,
+	totalRoul Double ,
+    totalAmt Double ,
+    bhogDate LocalDate ,
     createdDate Instant ,
     createdBy String ,
     lastModifiedDate Instant ,

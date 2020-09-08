@@ -2,14 +2,13 @@ package org.gnsg.gms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A PRoul.
@@ -19,7 +18,6 @@ import java.time.Instant;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "proul")
 public class PRoul implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -30,14 +28,20 @@ public class PRoul implements Serializable {
      * The firstname attribute.
      */
     @ApiModelProperty(value = "The firstname attribute.")
-    @Column(name = "name")
-    private String name;
+    @Column(name = "path_name")
+    private String pathName;
 
     @Column(name = "jhi_desc")
     private String desc;
 
     @Column(name = "total_roul")
-    private String totalRoul;
+    private Double totalRoul;
+
+    @Column(name = "total_amt")
+    private Double totalAmt;
+
+    @Column(name = "bhog_date")
+    private LocalDate bhogDate;
 
     @Column(name = "created_date")
     private Instant createdDate;
@@ -68,17 +72,17 @@ public class PRoul implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPathName() {
+        return pathName;
     }
 
-    public PRoul name(String name) {
-        this.name = name;
+    public PRoul pathName(String pathName) {
+        this.pathName = pathName;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPathName(String pathName) {
+        this.pathName = pathName;
     }
 
     public String getDesc() {
@@ -94,17 +98,43 @@ public class PRoul implements Serializable {
         this.desc = desc;
     }
 
-    public String getTotalRoul() {
+    public Double getTotalRoul() {
         return totalRoul;
     }
 
-    public PRoul totalRoul(String totalRoul) {
+    public PRoul totalRoul(Double totalRoul) {
         this.totalRoul = totalRoul;
         return this;
     }
 
-    public void setTotalRoul(String totalRoul) {
+    public void setTotalRoul(Double totalRoul) {
         this.totalRoul = totalRoul;
+    }
+
+    public Double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public PRoul totalAmt(Double totalAmt) {
+        this.totalAmt = totalAmt;
+        return this;
+    }
+
+    public void setTotalAmt(Double totalAmt) {
+        this.totalAmt = totalAmt;
+    }
+
+    public LocalDate getBhogDate() {
+        return bhogDate;
+    }
+
+    public PRoul bhogDate(LocalDate bhogDate) {
+        this.bhogDate = bhogDate;
+        return this;
+    }
+
+    public void setBhogDate(LocalDate bhogDate) {
+        this.bhogDate = bhogDate;
     }
 
     public Instant getCreatedDate() {
@@ -184,6 +214,7 @@ public class PRoul implements Serializable {
     public void setProg(ASProgram aSProgram) {
         this.prog = aSProgram;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -207,9 +238,11 @@ public class PRoul implements Serializable {
     public String toString() {
         return "PRoul{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", pathName='" + getPathName() + "'" +
             ", desc='" + getDesc() + "'" +
-            ", totalRoul='" + getTotalRoul() + "'" +
+            ", totalRoul=" + getTotalRoul() +
+            ", totalAmt=" + getTotalAmt() +
+            ", bhogDate='" + getBhogDate() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +

@@ -39,12 +39,6 @@ public class ASProgramServiceImpl implements ASProgramService {
         this.aSProgramSearchRepository = aSProgramSearchRepository;
     }
 
-    /**
-     * Save a aSProgram.
-     *
-     * @param aSProgram the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public ASProgram save(ASProgram aSProgram) {
         log.debug("Request to save ASProgram : {}", aSProgram);
@@ -62,12 +56,6 @@ public class ASProgramServiceImpl implements ASProgramService {
         return result;
     }
 
-    /**
-     * Get all the aSPrograms.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<ASProgram> findAll(Pageable pageable) {
@@ -75,12 +63,6 @@ public class ASProgramServiceImpl implements ASProgramService {
         return aSProgramRepository.findAll(pageable);
     }
 
-    /**
-     * Get one aSProgram by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<ASProgram> findOne(Long id) {
@@ -88,26 +70,13 @@ public class ASProgramServiceImpl implements ASProgramService {
         return aSProgramRepository.findById(id);
     }
 
-    /**
-     * Delete the aSProgram by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete ASProgram : {}", id);
-
         aSProgramRepository.deleteById(id);
         aSProgramSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the aSProgram corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<ASProgram> search(String query, Pageable pageable) {

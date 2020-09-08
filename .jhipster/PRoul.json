@@ -2,7 +2,7 @@
   "name": "PRoul",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "pathName",
       "fieldType": "String",
       "javadoc": "The firstname attribute."
     },
@@ -12,7 +12,15 @@
     },
     {
       "fieldName": "totalRoul",
-      "fieldType": "String"
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bhogDate",
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "createdDate",

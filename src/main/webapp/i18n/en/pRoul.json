@@ -17,9 +17,11 @@
       "detail": {
         "title": "P Roul"
       },
-      "name": "Name",
+      "pathName": "Path Name",
       "desc": "Desc",
       "totalRoul": "Total Roul",
+      "totalAmt": "Total Amt",
+      "bhogDate": "Bhog Date",
       "createdDate": "Created Date",
       "createdBy": "Created By",
       "lastModifiedDate": "Last Modified Date",
@@ -27,7 +29,7 @@
       "pathi": "Pathi",
       "prog": "Prog",
       "help": {
-        "name": "The firstname attribute."
+        "pathName": "The firstname attribute."
       }
     }
   }

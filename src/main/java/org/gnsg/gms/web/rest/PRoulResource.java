@@ -1,12 +1,18 @@
 package org.gnsg.gms.web.rest;
 
-import org.gnsg.gms.domain.PRoul;
-import org.gnsg.gms.service.PRoulService;
-import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+import org.gnsg.gms.domain.PRoul;
+import org.gnsg.gms.service.PRoulService;
+import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,17 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * REST controller for managing {@link org.gnsg.gms.domain.PRoul}.
@@ -32,7 +30,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @RestController
 @RequestMapping("/api")
 public class PRoulResource {
-
     private final Logger log = LoggerFactory.getLogger(PRoulResource.class);
 
     private static final String ENTITY_NAME = "pRoul";
@@ -60,7 +57,8 @@ public class PRoulResource {
             throw new BadRequestAlertException("A new pRoul cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PRoul result = pRoulService.save(pRoul);
-        return ResponseEntity.created(new URI("/api/p-rouls/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/p-rouls/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -81,7 +79,8 @@ public class PRoulResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         PRoul result = pRoulService.save(pRoul);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, pRoul.getId().toString()))
             .body(result);
     }
@@ -122,9 +121,11 @@ public class PRoulResource {
     @DeleteMapping("/p-rouls/{id}")
     public ResponseEntity<Void> deletePRoul(@PathVariable Long id) {
         log.debug("REST request to delete PRoul : {}", id);
-
         pRoulService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
@@ -141,5 +142,5 @@ public class PRoulResource {
         Page<PRoul> page = pRoulService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+    }
 }
