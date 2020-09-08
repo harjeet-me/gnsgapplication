@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface PRoulRepository extends JpaRepository<PRoul, Long> {
-    List<PRoul> findByName(String name);
+    List<PRoul> findByPathiName(String name);
 }
