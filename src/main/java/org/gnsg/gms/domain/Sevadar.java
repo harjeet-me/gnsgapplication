@@ -70,6 +70,10 @@ public class Sevadar implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Program> programs = new HashSet<>();
 
+    @OneToMany(mappedBy = "pathi")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<PathReport> pathReports = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -245,6 +249,31 @@ public class Sevadar implements Serializable {
 
     public void setPrograms(Set<Program> programs) {
         this.programs = programs;
+    }
+
+    public Set<PathReport> getPathReports() {
+        return pathReports;
+    }
+
+    public Sevadar pathReports(Set<PathReport> pathReports) {
+        this.pathReports = pathReports;
+        return this;
+    }
+
+    public Sevadar addPathReport(PathReport pathReport) {
+        this.pathReports.add(pathReport);
+        pathReport.setPathi(this);
+        return this;
+    }
+
+    public Sevadar removePathReport(PathReport pathReport) {
+        this.pathReports.remove(pathReport);
+        pathReport.setPathi(null);
+        return this;
+    }
+
+    public void setPathReports(Set<PathReport> pathReports) {
+        this.pathReports = pathReports;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

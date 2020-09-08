@@ -1,8 +1,11 @@
 import { Moment } from 'moment';
+import { ISevadar } from 'app/shared/model/sevadar.model';
+import { PATHSEARCHBY } from 'app/shared/model/enumerations/pathsearchby.model';
 import { PROGTYPE } from 'app/shared/model/enumerations/progtype.model';
 
 export interface IPathReport {
   id?: number;
+  searchBy?: PATHSEARCHBY;
   pathType?: PROGTYPE;
   startDate?: Moment;
   endDate?: Moment;
@@ -12,11 +15,13 @@ export interface IPathReport {
   createdBy?: string;
   lastModifiedDate?: Moment;
   lastModifiedBy?: string;
+  pathi?: ISevadar;
 }
 
 export class PathReport implements IPathReport {
   constructor(
     public id?: number,
+    public searchBy?: PATHSEARCHBY,
     public pathType?: PROGTYPE,
     public startDate?: Moment,
     public endDate?: Moment,
@@ -25,6 +30,7 @@ export class PathReport implements IPathReport {
     public createdDate?: Moment,
     public createdBy?: string,
     public lastModifiedDate?: Moment,
-    public lastModifiedBy?: string
+    public lastModifiedBy?: string,
+    public pathi?: ISevadar
   ) {}
 }

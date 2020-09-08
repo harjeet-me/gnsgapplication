@@ -12,6 +12,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.searchBy" for="field_searchBy">Search By</label>
+                    <select class="form-control" name="searchBy" formControlName="searchBy" id="field_searchBy">
+                        <option value="ALL">{{ 'gnsgapplicationApp.PATHSEARCHBY.ALL' | translate }}</option>
+                        <option value="PATHI_SINGH_NAME">{{ 'gnsgapplicationApp.PATHSEARCHBY.PATHI_SINGH_NAME' | translate }}</option>
+                        <option value="FAMILY_NAME">{{ 'gnsgapplicationApp.PATHSEARCHBY.FAMILY_NAME' | translate }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathType" for="field_pathType">Path Type</label>
                     <select class="form-control" name="pathType" formControlName="pathType" id="field_pathType">
                         <option value="SEHAJ_PATH">{{ 'gnsgapplicationApp.PROGTYPE.SEHAJ_PATH' | translate }}</option>
@@ -82,6 +91,14 @@
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.lastModifiedBy" for="field_lastModifiedBy">Last Modified By</label>
                     <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
                            formControlName="lastModifiedBy"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathi" for="field_pathi">Pathi</label>
+                    <select class="form-control" id="field_pathi" name="pathi" formControlName="pathi">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="sevadarOption.id === editForm.get('pathi')!.value?.id ? editForm.get('pathi')!.value : sevadarOption" *ngFor="let sevadarOption of sevadars; trackBy: trackById">{{ sevadarOption.name }}</option>
+                    </select>
                 </div>
             </div>
 

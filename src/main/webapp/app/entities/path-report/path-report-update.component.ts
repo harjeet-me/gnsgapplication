@@ -11,6 +11,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IPathReport, PathReport } from 'app/shared/model/path-report.model';
 import { PathReportService } from './path-report.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { ISevadar } from 'app/shared/model/sevadar.model';
+import { SevadarService } from 'app/entities/sevadar/sevadar.service';
 
 @Component({
   selector: 'jhi-path-report-update',
@@ -18,11 +20,13 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 })
 export class PathReportUpdateComponent implements OnInit {
   isSaving = false;
+  sevadars: ISevadar[] = [];
   startDateDp: any;
   endDateDp: any;
 
   editForm = this.fb.group({
     id: [],
+    searchBy: [],
     pathType: [],
     startDate: [],
     endDate: [],
@@ -32,12 +36,14 @@ export class PathReportUpdateComponent implements OnInit {
     createdBy: [],
     lastModifiedDate: [],
     lastModifiedBy: [],
+    pathi: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected pathReportService: PathReportService,
+    protected sevadarService: SevadarService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -51,12 +57,15 @@ export class PathReportUpdateComponent implements OnInit {
       }
 
       this.updateForm(pathReport);
+
+      this.sevadarService.query().subscribe((res: HttpResponse<ISevadar[]>) => (this.sevadars = res.body || []));
     });
   }
 
   updateForm(pathReport: IPathReport): void {
     this.editForm.patchValue({
       id: pathReport.id,
+      searchBy: pathReport.searchBy,
       pathType: pathReport.pathType,
       startDate: pathReport.startDate,
       endDate: pathReport.endDate,
@@ -66,6 +75,7 @@ export class PathReportUpdateComponent implements OnInit {
       createdBy: pathReport.createdBy,
       lastModifiedDate: pathReport.lastModifiedDate ? pathReport.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: pathReport.lastModifiedBy,
+      pathi: pathReport.pathi,
     });
   }
 
@@ -103,6 +113,7 @@ export class PathReportUpdateComponent implements OnInit {
     return {
       ...new PathReport(),
       id: this.editForm.get(['id'])!.value,
+      searchBy: this.editForm.get(['searchBy'])!.value,
       pathType: this.editForm.get(['pathType'])!.value,
       startDate: this.editForm.get(['startDate'])!.value,
       endDate: this.editForm.get(['endDate'])!.value,
@@ -116,6 +127,7 @@ export class PathReportUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      pathi: this.editForm.get(['pathi'])!.value,
     };
   }
 
@@ -133,5 +145,9 @@ export class PathReportUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: ISevadar): any {
+    return item.id;
   }
 }

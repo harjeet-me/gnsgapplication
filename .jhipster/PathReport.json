@@ -2,6 +2,11 @@
   "name": "PathReport",
   "fields": [
     {
+      "fieldName": "searchBy",
+      "fieldType": "PATHSEARCHBY",
+      "fieldValues": "ALL,PATHI_SINGH_NAME,FAMILY_NAME"
+    },
+    {
       "fieldName": "pathType",
       "fieldType": "PROGTYPE",
       "fieldValues": "SEHAJ_PATH,AKHAND_PATH"
@@ -36,7 +41,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "sevadar",
+      "otherEntityRelationshipName": "pathReport",
+      "relationshipName": "pathi",
+      "otherEntityField": "name"
+    }
+  ],
   "changelogDate": "20200906021436",
   "entityTableName": "path_report",
   "dto": "no",

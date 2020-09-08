@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { IProgram } from 'app/shared/model/program.model';
+import { IPathReport } from 'app/shared/model/path-report.model';
 
 export interface ISevadar {
   id?: number;
@@ -15,6 +16,7 @@ export interface ISevadar {
   lastModifiedDate?: Moment;
   lastModifiedBy?: string;
   programs?: IProgram[];
+  pathReports?: IPathReport[];
 }
 
 export class Sevadar implements ISevadar {
@@ -31,7 +33,8 @@ export class Sevadar implements ISevadar {
     public createdBy?: string,
     public lastModifiedDate?: Moment,
     public lastModifiedBy?: string,
-    public programs?: IProgram[]
+    public programs?: IProgram[],
+    public pathReports?: IPathReport[]
   ) {
     this.isValid = this.isValid || false;
   }

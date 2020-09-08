@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PathReportService } from 'app/entities/path-report/path-report.service';
 import { IPathReport, PathReport } from 'app/shared/model/path-report.model';
+import { PATHSEARCHBY } from 'app/shared/model/enumerations/pathsearchby.model';
 import { PROGTYPE } from 'app/shared/model/enumerations/progtype.model';
 
 describe('Service Tests', () => {
@@ -27,6 +28,7 @@ describe('Service Tests', () => {
 
       elemDefault = new PathReport(
         0,
+        PATHSEARCHBY.ALL,
         PROGTYPE.SEHAJ_PATH,
         currentDate,
         currentDate,
@@ -90,6 +92,7 @@ describe('Service Tests', () => {
       it('should update a PathReport', () => {
         const returnedFromService = Object.assign(
           {
+            searchBy: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),
@@ -122,6 +125,7 @@ describe('Service Tests', () => {
       it('should return a list of PathReport', () => {
         const returnedFromService = Object.assign(
           {
+            searchBy: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),

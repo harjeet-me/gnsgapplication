@@ -1,22 +1,24 @@
 package org.gnsg.gms.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.gnsg.gms.domain.DailyProgramReport;
 import org.gnsg.gms.service.DailyProgramReportService;
 import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link org.gnsg.gms.domain.DailyProgramReport}.
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class DailyProgramReportResource {
+
     private final Logger log = LoggerFactory.getLogger(DailyProgramReportResource.class);
 
     private static final String ENTITY_NAME = "dailyProgramReport";
@@ -45,15 +48,13 @@ public class DailyProgramReportResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/daily-program-reports")
-    public ResponseEntity<DailyProgramReport> createDailyProgramReport(@RequestBody DailyProgramReport dailyProgramReport)
-        throws URISyntaxException {
+    public ResponseEntity<DailyProgramReport> createDailyProgramReport(@RequestBody DailyProgramReport dailyProgramReport) throws URISyntaxException {
         log.debug("REST request to save DailyProgramReport : {}", dailyProgramReport);
         if (dailyProgramReport.getId() != null) {
             throw new BadRequestAlertException("A new dailyProgramReport cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DailyProgramReport result = dailyProgramReportService.save(dailyProgramReport);
-        return ResponseEntity
-            .created(new URI("/api/daily-program-reports/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/daily-program-reports/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -68,15 +69,13 @@ public class DailyProgramReportResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/daily-program-reports")
-    public ResponseEntity<DailyProgramReport> updateDailyProgramReport(@RequestBody DailyProgramReport dailyProgramReport)
-        throws URISyntaxException {
+    public ResponseEntity<DailyProgramReport> updateDailyProgramReport(@RequestBody DailyProgramReport dailyProgramReport) throws URISyntaxException {
         log.debug("REST request to update DailyProgramReport : {}", dailyProgramReport);
         if (dailyProgramReport.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         DailyProgramReport result = dailyProgramReportService.save(dailyProgramReport);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dailyProgramReport.getId().toString()))
             .body(result);
     }
@@ -115,10 +114,7 @@ public class DailyProgramReportResource {
     public ResponseEntity<Void> deleteDailyProgramReport(@PathVariable Long id) {
         log.debug("REST request to delete DailyProgramReport : {}", id);
         dailyProgramReportService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
     /**

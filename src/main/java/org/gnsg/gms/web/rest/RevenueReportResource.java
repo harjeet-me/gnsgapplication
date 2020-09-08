@@ -1,22 +1,24 @@
 package org.gnsg.gms.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.gnsg.gms.domain.RevenueReport;
 import org.gnsg.gms.service.RevenueReportService;
 import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link org.gnsg.gms.domain.RevenueReport}.
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class RevenueReportResource {
+
     private final Logger log = LoggerFactory.getLogger(RevenueReportResource.class);
 
     private static final String ENTITY_NAME = "revenueReport";
@@ -51,8 +54,7 @@ public class RevenueReportResource {
             throw new BadRequestAlertException("A new revenueReport cannot already have an ID", ENTITY_NAME, "idexists");
         }
         RevenueReport result = revenueReportService.save(revenueReport);
-        return ResponseEntity
-            .created(new URI("/api/revenue-reports/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/revenue-reports/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -73,8 +75,7 @@ public class RevenueReportResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         RevenueReport result = revenueReportService.save(revenueReport);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, revenueReport.getId().toString()))
             .body(result);
     }
@@ -113,10 +114,7 @@ public class RevenueReportResource {
     public ResponseEntity<Void> deleteRevenueReport(@PathVariable Long id) {
         log.debug("REST request to delete RevenueReport : {}", id);
         revenueReportService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
     /**

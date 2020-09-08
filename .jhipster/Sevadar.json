@@ -53,6 +53,12 @@
       "otherEntityName": "program",
       "otherEntityRelationshipName": "sevadar",
       "relationshipName": "program"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "pathReport",
+      "otherEntityRelationshipName": "pathi",
+      "relationshipName": "pathReport"
     }
   ],
   "changelogDate": "20200906022236",

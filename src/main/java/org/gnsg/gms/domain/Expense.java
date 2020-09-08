@@ -1,15 +1,17 @@
 package org.gnsg.gms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.persistence.*;
+
 import org.gnsg.gms.domain.enumeration.EXPTYPE;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A Expense.
@@ -19,27 +21,23 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "expense")
 public class Expense implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Expose
     @Enumerated(EnumType.STRING)
     @Column(name = "exp_type")
     private EXPTYPE expType;
 
-    @Expose
     @Column(name = "amt")
     private Double amt;
 
-    @Expose
     @Column(name = "date")
     private LocalDate date;
 
-    @Expose
     @Column(name = "jhi_desc")
     private String desc;
 
@@ -184,7 +182,6 @@ public class Expense implements Serializable {
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

@@ -35,6 +35,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
 import org.gnsg.gms.domain.enumeration.PROGTYPE;
 /**
  * Integration tests for the {@link PathReportResource} REST controller.
@@ -44,6 +45,9 @@ import org.gnsg.gms.domain.enumeration.PROGTYPE;
 @AutoConfigureMockMvc
 @WithMockUser
 public class PathReportResourceIT {
+
+    private static final PATHSEARCHBY DEFAULT_SEARCH_BY = PATHSEARCHBY.ALL;
+    private static final PATHSEARCHBY UPDATED_SEARCH_BY = PATHSEARCHBY.PATHI_SINGH_NAME;
 
     private static final PROGTYPE DEFAULT_PATH_TYPE = PROGTYPE.SEHAJ_PATH;
     private static final PROGTYPE UPDATED_PATH_TYPE = PROGTYPE.AKHAND_PATH;
@@ -101,6 +105,7 @@ public class PathReportResourceIT {
      */
     public static PathReport createEntity(EntityManager em) {
         PathReport pathReport = new PathReport()
+            .searchBy(DEFAULT_SEARCH_BY)
             .pathType(DEFAULT_PATH_TYPE)
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
@@ -120,6 +125,7 @@ public class PathReportResourceIT {
      */
     public static PathReport createUpdatedEntity(EntityManager em) {
         PathReport pathReport = new PathReport()
+            .searchBy(UPDATED_SEARCH_BY)
             .pathType(UPDATED_PATH_TYPE)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
@@ -151,6 +157,7 @@ public class PathReportResourceIT {
         List<PathReport> pathReportList = pathReportRepository.findAll();
         assertThat(pathReportList).hasSize(databaseSizeBeforeCreate + 1);
         PathReport testPathReport = pathReportList.get(pathReportList.size() - 1);
+        assertThat(testPathReport.getSearchBy()).isEqualTo(DEFAULT_SEARCH_BY);
         assertThat(testPathReport.getPathType()).isEqualTo(DEFAULT_PATH_TYPE);
         assertThat(testPathReport.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testPathReport.getEndDate()).isEqualTo(DEFAULT_END_DATE);
@@ -199,6 +206,7 @@ public class PathReportResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pathReport.getId().intValue())))
+            .andExpect(jsonPath("$.[*].searchBy").value(hasItem(DEFAULT_SEARCH_BY.toString())))
             .andExpect(jsonPath("$.[*].pathType").value(hasItem(DEFAULT_PATH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
@@ -221,6 +229,7 @@ public class PathReportResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(pathReport.getId().intValue()))
+            .andExpect(jsonPath("$.searchBy").value(DEFAULT_SEARCH_BY.toString()))
             .andExpect(jsonPath("$.pathType").value(DEFAULT_PATH_TYPE.toString()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
@@ -252,6 +261,7 @@ public class PathReportResourceIT {
         // Disconnect from session so that the updates on updatedPathReport are not directly saved in db
         em.detach(updatedPathReport);
         updatedPathReport
+            .searchBy(UPDATED_SEARCH_BY)
             .pathType(UPDATED_PATH_TYPE)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
@@ -271,6 +281,7 @@ public class PathReportResourceIT {
         List<PathReport> pathReportList = pathReportRepository.findAll();
         assertThat(pathReportList).hasSize(databaseSizeBeforeUpdate);
         PathReport testPathReport = pathReportList.get(pathReportList.size() - 1);
+        assertThat(testPathReport.getSearchBy()).isEqualTo(UPDATED_SEARCH_BY);
         assertThat(testPathReport.getPathType()).isEqualTo(UPDATED_PATH_TYPE);
         assertThat(testPathReport.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testPathReport.getEndDate()).isEqualTo(UPDATED_END_DATE);
@@ -339,6 +350,7 @@ public class PathReportResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pathReport.getId().intValue())))
+            .andExpect(jsonPath("$.[*].searchBy").value(hasItem(DEFAULT_SEARCH_BY.toString())))
             .andExpect(jsonPath("$.[*].pathType").value(hasItem(DEFAULT_PATH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
