@@ -17,7 +17,7 @@
       "detail": {
         "title": "P Roul"
       },
-      "pathName": "Path Name",
+      "pathiName": "Pathi Name",
       "desc": "Desc",
       "totalRoul": "Total Roul",
       "totalAmt": "Total Amt",
@@ -26,11 +26,8 @@
       "createdBy": "Created By",
       "lastModifiedDate": "Last Modified Date",
       "lastModifiedBy": "Last Modified By",
-      "pathi": "Pathi",
       "prog": "Prog",
-      "help": {
-        "pathName": "The firstname attribute."
-      }
+      "pathi": "Pathi"
     }
   }
 }

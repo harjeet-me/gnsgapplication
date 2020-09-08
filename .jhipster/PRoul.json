@@ -2,9 +2,8 @@
   "name": "PRoul",
   "fields": [
     {
-      "fieldName": "pathName",
-      "fieldType": "String",
-      "javadoc": "The firstname attribute."
+      "fieldName": "pathiName",
+      "fieldType": "String"
     },
     {
       "fieldName": "desc",
@@ -41,19 +40,18 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "sevadar",
-      "otherEntityRelationshipName": "pRoul",
-      "relationshipName": "pathi",
-      "otherEntityField": "name",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "aSProgram",
       "otherEntityRelationshipName": "pRoul",
       "relationshipName": "prog",
       "otherEntityField": "desc"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "sevadar",
+      "otherEntityRelationshipName": "pRoul",
+      "relationshipName": "pathi",
+      "otherEntityField": "name"
     }
   ],
   "changelogDate": "20200906022336",

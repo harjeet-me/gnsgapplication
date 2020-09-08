@@ -4,18 +4,17 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IPRoul, PRoul } from 'app/shared/model/p-roul.model';
 import { PRoulService } from './p-roul.service';
-import { ISevadar } from 'app/shared/model/sevadar.model';
-import { SevadarService } from 'app/entities/sevadar/sevadar.service';
 import { IASProgram } from 'app/shared/model/as-program.model';
 import { ASProgramService } from 'app/entities/as-program/as-program.service';
+import { ISevadar } from 'app/shared/model/sevadar.model';
+import { SevadarService } from 'app/entities/sevadar/sevadar.service';
 
-type SelectableEntity = ISevadar | IASProgram;
+type SelectableEntity = IASProgram | ISevadar;
 
 @Component({
   selector: 'jhi-p-roul-update',
@@ -23,13 +22,13 @@ type SelectableEntity = ISevadar | IASProgram;
 })
 export class PRoulUpdateComponent implements OnInit {
   isSaving = false;
-  pathis: ISevadar[] = [];
   asprograms: IASProgram[] = [];
+  sevadars: ISevadar[] = [];
   bhogDateDp: any;
 
   editForm = this.fb.group({
     id: [],
-    pathName: [],
+    pathiName: [],
     desc: [],
     totalRoul: [],
     totalAmt: [],
@@ -38,14 +37,14 @@ export class PRoulUpdateComponent implements OnInit {
     createdBy: [],
     lastModifiedDate: [],
     lastModifiedBy: [],
-    pathi: [],
     prog: [],
+    pathi: [],
   });
 
   constructor(
     protected pRoulService: PRoulService,
-    protected sevadarService: SevadarService,
     protected aSProgramService: ASProgramService,
+    protected sevadarService: SevadarService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -60,36 +59,16 @@ export class PRoulUpdateComponent implements OnInit {
 
       this.updateForm(pRoul);
 
-      this.sevadarService
-        .query({ filter: 'proul-is-null' })
-        .pipe(
-          map((res: HttpResponse<ISevadar[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: ISevadar[]) => {
-          if (!pRoul.pathi || !pRoul.pathi.id) {
-            this.pathis = resBody;
-          } else {
-            this.sevadarService
-              .find(pRoul.pathi.id)
-              .pipe(
-                map((subRes: HttpResponse<ISevadar>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: ISevadar[]) => (this.pathis = concatRes));
-          }
-        });
-
       this.aSProgramService.query().subscribe((res: HttpResponse<IASProgram[]>) => (this.asprograms = res.body || []));
+
+      this.sevadarService.query().subscribe((res: HttpResponse<ISevadar[]>) => (this.sevadars = res.body || []));
     });
   }
 
   updateForm(pRoul: IPRoul): void {
     this.editForm.patchValue({
       id: pRoul.id,
-      pathName: pRoul.pathName,
+      pathiName: pRoul.pathiName,
       desc: pRoul.desc,
       totalRoul: pRoul.totalRoul,
       totalAmt: pRoul.totalAmt,
@@ -98,8 +77,8 @@ export class PRoulUpdateComponent implements OnInit {
       createdBy: pRoul.createdBy,
       lastModifiedDate: pRoul.lastModifiedDate ? pRoul.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: pRoul.lastModifiedBy,
-      pathi: pRoul.pathi,
       prog: pRoul.prog,
+      pathi: pRoul.pathi,
     });
   }
 
@@ -121,7 +100,7 @@ export class PRoulUpdateComponent implements OnInit {
     return {
       ...new PRoul(),
       id: this.editForm.get(['id'])!.value,
-      pathName: this.editForm.get(['pathName'])!.value,
+      pathiName: this.editForm.get(['pathiName'])!.value,
       desc: this.editForm.get(['desc'])!.value,
       totalRoul: this.editForm.get(['totalRoul'])!.value,
       totalAmt: this.editForm.get(['totalAmt'])!.value,
@@ -134,8 +113,8 @@ export class PRoulUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
-      pathi: this.editForm.get(['pathi'])!.value,
       prog: this.editForm.get(['prog'])!.value,
+      pathi: this.editForm.get(['pathi'])!.value,
     };
   }
 

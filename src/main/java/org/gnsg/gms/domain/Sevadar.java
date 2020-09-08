@@ -1,17 +1,15 @@
 package org.gnsg.gms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * The Employee entity.
@@ -22,17 +20,12 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "sevadar")
 public class Sevadar implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * The firstname attribute.
-     */
-    @ApiModelProperty(value = "The firstname attribute.")
     @Column(name = "name")
     private String name;
 
@@ -73,6 +66,15 @@ public class Sevadar implements Serializable {
     @OneToMany(mappedBy = "pathi")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<PathReport> pathReports = new HashSet<>();
+
+    @OneToMany(mappedBy = "pathi")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<PRoul> pRouls = new HashSet<>();
+
+    @ManyToMany(mappedBy = "granthis")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnore
+    private Set<ASProgram> pathProgs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -275,6 +277,57 @@ public class Sevadar implements Serializable {
     public void setPathReports(Set<PathReport> pathReports) {
         this.pathReports = pathReports;
     }
+
+    public Set<PRoul> getPRouls() {
+        return pRouls;
+    }
+
+    public Sevadar pRouls(Set<PRoul> pRouls) {
+        this.pRouls = pRouls;
+        return this;
+    }
+
+    public Sevadar addPRoul(PRoul pRoul) {
+        this.pRouls.add(pRoul);
+        pRoul.setPathi(this);
+        return this;
+    }
+
+    public Sevadar removePRoul(PRoul pRoul) {
+        this.pRouls.remove(pRoul);
+        pRoul.setPathi(null);
+        return this;
+    }
+
+    public void setPRouls(Set<PRoul> pRouls) {
+        this.pRouls = pRouls;
+    }
+
+    public Set<ASProgram> getPathProgs() {
+        return pathProgs;
+    }
+
+    public Sevadar pathProgs(Set<ASProgram> aSPrograms) {
+        this.pathProgs = aSPrograms;
+        return this;
+    }
+
+    public Sevadar addPathProg(ASProgram aSProgram) {
+        this.pathProgs.add(aSProgram);
+        aSProgram.getGranthis().add(this);
+        return this;
+    }
+
+    public Sevadar removePathProg(ASProgram aSProgram) {
+        this.pathProgs.remove(aSProgram);
+        aSProgram.getGranthis().remove(this);
+        return this;
+    }
+
+    public void setPathProgs(Set<ASProgram> aSPrograms) {
+        this.pathProgs = aSPrograms;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

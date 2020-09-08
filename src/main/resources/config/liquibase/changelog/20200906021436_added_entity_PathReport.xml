@@ -19,7 +19,7 @@
             <column name="search_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="pathi_name" type="varchar(255)">
+            <column name="search_term" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="path_type" type="varchar(255)">
@@ -78,7 +78,7 @@
                   tableName="path_report">
             <column name="id" type="numeric"/>
             <column name="search_by" type="string"/>
-            <column name="pathi_name" type="string"/>
+            <column name="search_term" type="string"/>
             <column name="path_type" type="string"/>
             <column name="start_date" type="date"/>
             <column name="end_date" type="date"/>

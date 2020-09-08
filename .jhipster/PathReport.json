@@ -4,10 +4,10 @@
     {
       "fieldName": "searchBy",
       "fieldType": "PATHSEARCHBY",
-      "fieldValues": "ALL,PATHI_SINGH_NAME,FAMILY_NAME"
+      "fieldValues": "ALL,PATHI_SINGH_NAME"
     },
     {
-      "fieldName": "pathiName",
+      "fieldName": "searchTerm",
       "fieldType": "String"
     },
     {

@@ -31,16 +31,26 @@ public class PRoulServiceImpl implements PRoulService {
         this.pRoulSearchRepository = pRoulSearchRepository;
     }
 
+    /**
+     * Save a pRoul.
+     *
+     * @param pRoul the entity to save.
+     * @return the persisted entity.
+     */
     @Override
     public PRoul save(PRoul pRoul) {
         log.debug("Request to save PRoul : {}", pRoul);
-        pRoul.setPathName(pRoul.getPathi().getName());
-
         PRoul result = pRoulRepository.save(pRoul);
         pRoulSearchRepository.save(result);
         return result;
     }
 
+    /**
+     * Get all the pRouls.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<PRoul> findAll(Pageable pageable) {
@@ -48,6 +58,12 @@ public class PRoulServiceImpl implements PRoulService {
         return pRoulRepository.findAll(pageable);
     }
 
+    /**
+     * Get one pRoul by id.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<PRoul> findOne(Long id) {
@@ -55,13 +71,26 @@ public class PRoulServiceImpl implements PRoulService {
         return pRoulRepository.findById(id);
     }
 
+    /**
+     * Delete the pRoul by id.
+     *
+     * @param id the id of the entity.
+     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete PRoul : {}", id);
+
         pRoulRepository.deleteById(id);
         pRoulSearchRepository.deleteById(id);
     }
 
+    /**
+     * Search for the pRoul corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<PRoul> search(String query, Pageable pageable) {

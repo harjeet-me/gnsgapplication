@@ -30,9 +30,8 @@
       "lastModifiedBy": "Last Modified By",
       "program": "Program",
       "pathReport": "Path Report",
-      "help": {
-        "name": "The firstname attribute."
-      }
+      "pRoul": "P Roul",
+      "pathProg": "Path Prog"
     }
   }
 }

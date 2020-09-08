@@ -64,6 +64,12 @@
                 <dd>
                     <span>{{ aSProgram.lastModifiedBy }}</span>
                 </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.aSProgram.granthi">Granthi</span></dt>
+                <dd>
+                    <span *ngFor="let granthi of aSProgram.granthis; let last = last">
+                        <a [routerLink]="['/sevadar', granthi?.id, 'view']">{{ granthi.name }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
             </dl>
 
             <button type="submit"

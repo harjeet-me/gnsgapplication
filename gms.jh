@@ -42,13 +42,13 @@ enum PROGTYPE{
 }
 
 enum PATHSEARCHBY{
- ALL, PATHI_SINGH_NAME , FAMILY_NAME 
+ ALL, PATHI_SINGH_NAME 
  }
 
 
 entity PathReport {
     searchBy   PATHSEARCHBY ,
-    pathiName String,
+	searchTerm String ,
     pathType PROGTYPE ,
    	startDate LocalDate,
     endDate LocalDate ,
@@ -174,9 +174,7 @@ entity Task {
  * The Employee entity.
  */
 entity Sevadar {
-	/**
-	* The firstname attribute.
-	*/
+	
 	name String,
 	email String,
 	phoneNumber String,
@@ -193,10 +191,8 @@ entity Sevadar {
 
 
 entity PRoul {
-	/**
-	* The firstname attribute.
-	*/
-    pathName String
+	
+    pathiName String
 	desc String,
 	totalRoul Double ,
     totalAmt Double ,
@@ -226,15 +222,16 @@ enum EVENTTYPE {
     Sevadar  to   Program {sevadar(name)}
     Sevadar  to   PathReport {pathi(name)}
     ASProgram to  PRoul {prog(desc)} 
-      //Sevadar  to   SehajPath {granthi(name)}
+    //Sevadar  to   SehajPath {granthi(name)}
+	  
+	Sevadar to PRoul {pathi(name)}
+   }
+   
+   relationship ManyToMany {
+    ASProgram {granthi(name)} to  Sevadar {pathProg(desc)}
    }
 
- relationship OneToOne {
-    PRoul {pathi(name)} to     Sevadar 
-  
-   
-   
-   }
+ 
 
 
 // Set pagination options

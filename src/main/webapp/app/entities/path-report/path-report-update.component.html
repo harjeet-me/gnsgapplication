@@ -16,14 +16,13 @@
                     <select class="form-control" name="searchBy" formControlName="searchBy" id="field_searchBy">
                         <option value="ALL">{{ 'gnsgapplicationApp.PATHSEARCHBY.ALL' | translate }}</option>
                         <option value="PATHI_SINGH_NAME">{{ 'gnsgapplicationApp.PATHSEARCHBY.PATHI_SINGH_NAME' | translate }}</option>
-                        <option value="FAMILY_NAME">{{ 'gnsgapplicationApp.PATHSEARCHBY.FAMILY_NAME' | translate }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathiName" for="field_pathiName">Pathi Name</label>
-                    <input type="text" class="form-control" name="pathiName" id="field_pathiName"
-                           formControlName="pathiName"/>
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.searchTerm" for="field_searchTerm">Search Term</label>
+                    <input type="text" class="form-control" name="searchTerm" id="field_searchTerm"
+                           formControlName="searchTerm"/>
                 </div>
 
                 <div class="form-group">

@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { IPRoul } from 'app/shared/model/p-roul.model';
+import { ISevadar } from 'app/shared/model/sevadar.model';
 import { PROGTYPE } from 'app/shared/model/enumerations/progtype.model';
 import { EventStatus } from 'app/shared/model/enumerations/event-status.model';
 
@@ -20,6 +21,7 @@ export interface IASProgram {
   lastModifiedDate?: Moment;
   lastModifiedBy?: string;
   pRouls?: IPRoul[];
+  granthis?: ISevadar[];
 }
 
 export class ASProgram implements IASProgram {
@@ -39,6 +41,7 @@ export class ASProgram implements IASProgram {
     public createdBy?: string,
     public lastModifiedDate?: Moment,
     public lastModifiedBy?: string,
-    public pRouls?: IPRoul[]
+    public pRouls?: IPRoul[],
+    public granthis?: ISevadar[]
   ) {}
 }

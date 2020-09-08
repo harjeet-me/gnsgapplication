@@ -1,15 +1,32 @@
 package org.gnsg.gms.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.gnsg.gms.GnsgapplicationApp;
 import org.gnsg.gms.domain.ASProgram;
+import org.gnsg.gms.domain.enumeration.EventStatus;
+import org.gnsg.gms.domain.enumeration.PROGTYPE;
 import org.gnsg.gms.repository.ASProgramRepository;
 import org.gnsg.gms.repository.search.ASProgramSearchRepository;
 import org.gnsg.gms.service.ASProgramService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,24 +37,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.gnsg.gms.domain.enumeration.PROGTYPE;
-import org.gnsg.gms.domain.enumeration.EventStatus;
 /**
  * Integration tests for the {@link ASProgramResource} REST controller.
  */
@@ -46,7 +46,6 @@ import org.gnsg.gms.domain.enumeration.EventStatus;
 @AutoConfigureMockMvc
 @WithMockUser
 public class ASProgramResourceIT {
-
     private static final PROGTYPE DEFAULT_PROGRAM = PROGTYPE.SEHAJ_PATH;
     private static final PROGTYPE UPDATED_PROGRAM = PROGTYPE.AKHAND_PATH;
 
@@ -92,6 +91,12 @@ public class ASProgramResourceIT {
     @Autowired
     private ASProgramRepository aSProgramRepository;
 
+    @Mock
+    private ASProgramRepository aSProgramRepositoryMock;
+
+    @Mock
+    private ASProgramService aSProgramServiceMock;
+
     @Autowired
     private ASProgramService aSProgramService;
 
@@ -135,6 +140,7 @@ public class ASProgramResourceIT {
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
         return aSProgram;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -170,9 +176,13 @@ public class ASProgramResourceIT {
     public void createASProgram() throws Exception {
         int databaseSizeBeforeCreate = aSProgramRepository.findAll().size();
         // Create the ASProgram
-        restASProgramMockMvc.perform(post("/api/as-programs").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(aSProgram)))
+        restASProgramMockMvc
+            .perform(
+                post("/api/as-programs")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(aSProgram))
+            )
             .andExpect(status().isCreated());
 
         // Validate the ASProgram in the database
@@ -207,9 +217,13 @@ public class ASProgramResourceIT {
         aSProgram.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restASProgramMockMvc.perform(post("/api/as-programs").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(aSProgram)))
+        restASProgramMockMvc
+            .perform(
+                post("/api/as-programs")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(aSProgram))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the ASProgram in the database
@@ -220,7 +234,6 @@ public class ASProgramResourceIT {
         verify(mockASProgramSearchRepository, times(0)).save(aSProgram);
     }
 
-
     @Test
     @Transactional
     public void getAllASPrograms() throws Exception {
@@ -228,7 +241,8 @@ public class ASProgramResourceIT {
         aSProgramRepository.saveAndFlush(aSProgram);
 
         // Get all the aSProgramList
-        restASProgramMockMvc.perform(get("/api/as-programs?sort=id,desc"))
+        restASProgramMockMvc
+            .perform(get("/api/as-programs?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aSProgram.getId().intValue())))
@@ -247,7 +261,25 @@ public class ASProgramResourceIT {
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
-    
+
+    @SuppressWarnings({ "unchecked" })
+    public void getAllASProgramsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(aSProgramServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restASProgramMockMvc.perform(get("/api/as-programs?eagerload=true")).andExpect(status().isOk());
+
+        verify(aSProgramServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    public void getAllASProgramsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(aSProgramServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restASProgramMockMvc.perform(get("/api/as-programs?eagerload=true")).andExpect(status().isOk());
+
+        verify(aSProgramServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getASProgram() throws Exception {
@@ -255,7 +287,8 @@ public class ASProgramResourceIT {
         aSProgramRepository.saveAndFlush(aSProgram);
 
         // Get the aSProgram
-        restASProgramMockMvc.perform(get("/api/as-programs/{id}", aSProgram.getId()))
+        restASProgramMockMvc
+            .perform(get("/api/as-programs/{id}", aSProgram.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(aSProgram.getId().intValue()))
@@ -274,12 +307,12 @@ public class ASProgramResourceIT {
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
+
     @Test
     @Transactional
     public void getNonExistingASProgram() throws Exception {
         // Get the aSProgram
-        restASProgramMockMvc.perform(get("/api/as-programs/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restASProgramMockMvc.perform(get("/api/as-programs/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -310,9 +343,13 @@ public class ASProgramResourceIT {
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
-        restASProgramMockMvc.perform(put("/api/as-programs").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedASProgram)))
+        restASProgramMockMvc
+            .perform(
+                put("/api/as-programs")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedASProgram))
+            )
             .andExpect(status().isOk());
 
         // Validate the ASProgram in the database
@@ -344,9 +381,13 @@ public class ASProgramResourceIT {
         int databaseSizeBeforeUpdate = aSProgramRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restASProgramMockMvc.perform(put("/api/as-programs").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(aSProgram)))
+        restASProgramMockMvc
+            .perform(
+                put("/api/as-programs")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(aSProgram))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the ASProgram in the database
@@ -366,8 +407,8 @@ public class ASProgramResourceIT {
         int databaseSizeBeforeDelete = aSProgramRepository.findAll().size();
 
         // Delete the aSProgram
-        restASProgramMockMvc.perform(delete("/api/as-programs/{id}", aSProgram.getId()).with(csrf())
-            .accept(MediaType.APPLICATION_JSON))
+        restASProgramMockMvc
+            .perform(delete("/api/as-programs/{id}", aSProgram.getId()).with(csrf()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -388,7 +429,8 @@ public class ASProgramResourceIT {
             .thenReturn(new PageImpl<>(Collections.singletonList(aSProgram), PageRequest.of(0, 1), 1));
 
         // Search the aSProgram
-        restASProgramMockMvc.perform(get("/api/_search/as-programs?query=id:" + aSProgram.getId()))
+        restASProgramMockMvc
+            .perform(get("/api/_search/as-programs?query=id:" + aSProgram.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aSProgram.getId().intValue())))

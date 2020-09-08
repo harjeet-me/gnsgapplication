@@ -1,12 +1,18 @@
 package org.gnsg.gms.web.rest;
 
-import org.gnsg.gms.domain.ASProgram;
-import org.gnsg.gms.service.ASProgramService;
-import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+import org.gnsg.gms.domain.ASProgram;
+import org.gnsg.gms.service.ASProgramService;
+import org.gnsg.gms.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,17 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * REST controller for managing {@link org.gnsg.gms.domain.ASProgram}.
@@ -32,7 +30,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @RestController
 @RequestMapping("/api")
 public class ASProgramResource {
-
     private final Logger log = LoggerFactory.getLogger(ASProgramResource.class);
 
     private static final String ENTITY_NAME = "aSProgram";
@@ -60,7 +57,8 @@ public class ASProgramResource {
             throw new BadRequestAlertException("A new aSProgram cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ASProgram result = aSProgramService.save(aSProgram);
-        return ResponseEntity.created(new URI("/api/as-programs/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/as-programs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -81,7 +79,8 @@ public class ASProgramResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ASProgram result = aSProgramService.save(aSProgram);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, aSProgram.getId().toString()))
             .body(result);
     }
@@ -90,12 +89,21 @@ public class ASProgramResource {
      * {@code GET  /as-programs} : get all the aSPrograms.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aSPrograms in body.
      */
     @GetMapping("/as-programs")
-    public ResponseEntity<List<ASProgram>> getAllASPrograms(Pageable pageable) {
+    public ResponseEntity<List<ASProgram>> getAllASPrograms(
+        Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
         log.debug("REST request to get a page of ASPrograms");
-        Page<ASProgram> page = aSProgramService.findAll(pageable);
+        Page<ASProgram> page;
+        if (eagerload) {
+            page = aSProgramService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = aSProgramService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -122,8 +130,12 @@ public class ASProgramResource {
     @DeleteMapping("/as-programs/{id}")
     public ResponseEntity<Void> deleteASProgram(@PathVariable Long id) {
         log.debug("REST request to delete ASProgram : {}", id);
+
         aSProgramService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
@@ -140,5 +152,5 @@ public class ASProgramResource {
         Page<ASProgram> page = aSProgramService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+    }
 }

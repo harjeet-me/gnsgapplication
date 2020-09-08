@@ -94,7 +94,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             searchBy: 'BBBBBB',
-            pathiName: 'BBBBBB',
+            searchTerm: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),
@@ -128,7 +128,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             searchBy: 'BBBBBB',
-            pathiName: 'BBBBBB',
+            searchTerm: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),

@@ -1,10 +1,10 @@
 import { Moment } from 'moment';
-import { ISevadar } from 'app/shared/model/sevadar.model';
 import { IASProgram } from 'app/shared/model/as-program.model';
+import { ISevadar } from 'app/shared/model/sevadar.model';
 
 export interface IPRoul {
   id?: number;
-  pathName?: string;
+  pathiName?: string;
   desc?: string;
   totalRoul?: number;
   totalAmt?: number;
@@ -13,14 +13,14 @@ export interface IPRoul {
   createdBy?: string;
   lastModifiedDate?: Moment;
   lastModifiedBy?: string;
-  pathi?: ISevadar;
   prog?: IASProgram;
+  pathi?: ISevadar;
 }
 
 export class PRoul implements IPRoul {
   constructor(
     public id?: number,
-    public pathName?: string,
+    public pathiName?: string,
     public desc?: string,
     public totalRoul?: number,
     public totalAmt?: number,
@@ -29,7 +29,7 @@ export class PRoul implements IPRoul {
     public createdBy?: string,
     public lastModifiedDate?: Moment,
     public lastModifiedBy?: string,
-    public pathi?: ISevadar,
-    public prog?: IASProgram
+    public prog?: IASProgram,
+    public pathi?: ISevadar
   ) {}
 }

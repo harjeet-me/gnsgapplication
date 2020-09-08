@@ -1,19 +1,15 @@
 package org.gnsg.gms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-
+import javax.persistence.*;
 import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
-
 import org.gnsg.gms.domain.enumeration.PROGTYPE;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A PathReport.
@@ -23,7 +19,6 @@ import org.gnsg.gms.domain.enumeration.PROGTYPE;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "pathreport")
 public class PathReport implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,8 +29,8 @@ public class PathReport implements Serializable {
     @Column(name = "search_by")
     private PATHSEARCHBY searchBy;
 
-    @Column(name = "pathi_name")
-    private String pathiName;
+    @Column(name = "search_term")
+    private String searchTerm;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "path_type")
@@ -92,17 +87,17 @@ public class PathReport implements Serializable {
         this.searchBy = searchBy;
     }
 
-    public String getPathiName() {
-        return pathiName;
+    public String getSearchTerm() {
+        return searchTerm;
     }
 
-    public PathReport pathiName(String pathiName) {
-        this.pathiName = pathiName;
+    public PathReport searchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
         return this;
     }
 
-    public void setPathiName(String pathiName) {
-        this.pathiName = pathiName;
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
     }
 
     public PROGTYPE getPathType() {
@@ -234,6 +229,7 @@ public class PathReport implements Serializable {
     public void setPathi(Sevadar sevadar) {
         this.pathi = sevadar;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -258,7 +254,7 @@ public class PathReport implements Serializable {
         return "PathReport{" +
             "id=" + getId() +
             ", searchBy='" + getSearchBy() + "'" +
-            ", pathiName='" + getPathiName() + "'" +
+            ", searchTerm='" + getSearchTerm() + "'" +
             ", pathType='" + getPathType() + "'" +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +

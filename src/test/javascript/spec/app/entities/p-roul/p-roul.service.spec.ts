@@ -75,7 +75,7 @@ describe('Service Tests', () => {
       it('should update a PRoul', () => {
         const returnedFromService = Object.assign(
           {
-            pathName: 'BBBBBB',
+            pathiName: 'BBBBBB',
             desc: 'BBBBBB',
             totalRoul: 1,
             totalAmt: 1,
@@ -107,7 +107,7 @@ describe('Service Tests', () => {
       it('should return a list of PRoul', () => {
         const returnedFromService = Object.assign(
           {
-            pathName: 'BBBBBB',
+            pathiName: 'BBBBBB',
             desc: 'BBBBBB',
             totalRoul: 1,
             totalAmt: 1,

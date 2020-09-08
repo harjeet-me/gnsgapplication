@@ -18,7 +18,7 @@
         "title": "Path Report"
       },
       "searchBy": "Search By",
-      "pathiName": "Pathi Name",
+      "searchTerm": "Search Term",
       "pathType": "Path Type",
       "startDate": "Start Date",
       "endDate": "End Date",

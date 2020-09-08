@@ -9,6 +9,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IASProgram, ASProgram } from 'app/shared/model/as-program.model';
 import { ASProgramService } from './as-program.service';
+import { ISevadar } from 'app/shared/model/sevadar.model';
+import { SevadarService } from 'app/entities/sevadar/sevadar.service';
 
 @Component({
   selector: 'jhi-as-program-update',
@@ -16,6 +18,7 @@ import { ASProgramService } from './as-program.service';
 })
 export class ASProgramUpdateComponent implements OnInit {
   isSaving = false;
+  sevadars: ISevadar[] = [];
   startDateDp: any;
   endDateDp: any;
 
@@ -35,9 +38,15 @@ export class ASProgramUpdateComponent implements OnInit {
     createdBy: [],
     lastModifiedDate: [],
     lastModifiedBy: [],
+    granthis: [],
   });
 
-  constructor(protected aSProgramService: ASProgramService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected aSProgramService: ASProgramService,
+    protected sevadarService: SevadarService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ aSProgram }) => {
@@ -49,6 +58,8 @@ export class ASProgramUpdateComponent implements OnInit {
       }
 
       this.updateForm(aSProgram);
+
+      this.sevadarService.query().subscribe((res: HttpResponse<ISevadar[]>) => (this.sevadars = res.body || []));
     });
   }
 
@@ -69,6 +80,7 @@ export class ASProgramUpdateComponent implements OnInit {
       createdBy: aSProgram.createdBy,
       lastModifiedDate: aSProgram.lastModifiedDate ? aSProgram.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: aSProgram.lastModifiedBy,
+      granthis: aSProgram.granthis,
     });
   }
 
@@ -110,6 +122,7 @@ export class ASProgramUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      granthis: this.editForm.get(['granthis'])!.value,
     };
   }
 
@@ -127,5 +140,20 @@ export class ASProgramUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: ISevadar): any {
+    return item.id;
+  }
+
+  getSelected(selectedVals: ISevadar[], option: ISevadar): ISevadar {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

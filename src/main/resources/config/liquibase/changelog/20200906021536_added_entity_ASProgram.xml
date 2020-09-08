@@ -67,6 +67,17 @@
 
     <changeSet id="20200906021536-1-relations" author="jhipster">
 
+        <createTable tableName="as_program_granthi">
+            <column name="granthi_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="asprogram_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="asprogram_id, granthi_id" tableName="as_program_granthi"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 

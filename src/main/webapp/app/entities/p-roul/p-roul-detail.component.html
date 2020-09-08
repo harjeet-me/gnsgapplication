@@ -8,9 +8,9 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathName" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.pathName' | translate">Path Name</span></dt>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathiName">Pathi Name</span></dt>
                 <dd>
-                    <span>{{ pRoul.pathName }}</span>
+                    <span>{{ pRoul.pathiName }}</span>
                 </dd>
                 <dt><span jhiTranslate="gnsgapplicationApp.pRoul.desc">Desc</span></dt>
                 <dd>
@@ -44,16 +44,16 @@
                 <dd>
                     <span>{{ pRoul.lastModifiedBy }}</span>
                 </dd>
-                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathi">Pathi</span></dt>
-                <dd>
-                    <div *ngIf="pRoul.pathi">
-                        <a [routerLink]="['/sevadar', pRoul.pathi?.id, 'view']">{{ pRoul.pathi?.name }}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gnsgapplicationApp.pRoul.prog">Prog</span></dt>
                 <dd>
                     <div *ngIf="pRoul.prog">
                         <a [routerLink]="['/as-program', pRoul.prog?.id, 'view']">{{ pRoul.prog?.desc }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathi">Pathi</span></dt>
+                <dd>
+                    <div *ngIf="pRoul.pathi">
+                        <a [routerLink]="['/sevadar', pRoul.pathi?.id, 'view']">{{ pRoul.pathi?.name }}</a>
                     </div>
                 </dd>
             </dl>

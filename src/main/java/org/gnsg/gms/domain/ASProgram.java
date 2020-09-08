@@ -1,20 +1,16 @@
 package org.gnsg.gms.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.gnsg.gms.domain.enumeration.PROGTYPE;
-
+import javax.persistence.*;
 import org.gnsg.gms.domain.enumeration.EventStatus;
+import org.gnsg.gms.domain.enumeration.PROGTYPE;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A ASProgram.
@@ -24,7 +20,6 @@ import org.gnsg.gms.domain.enumeration.EventStatus;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "asprogram")
 public class ASProgram implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -78,6 +73,15 @@ public class ASProgram implements Serializable {
     @OneToMany(mappedBy = "prog")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<PRoul> pRouls = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "as_program_granthi",
+        joinColumns = @JoinColumn(name = "asprogram_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "granthi_id", referencedColumnName = "id")
+    )
+    private Set<Sevadar> granthis = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -294,6 +298,32 @@ public class ASProgram implements Serializable {
     public void setPRouls(Set<PRoul> pRouls) {
         this.pRouls = pRouls;
     }
+
+    public Set<Sevadar> getGranthis() {
+        return granthis;
+    }
+
+    public ASProgram granthis(Set<Sevadar> sevadars) {
+        this.granthis = sevadars;
+        return this;
+    }
+
+    public ASProgram addGranthi(Sevadar sevadar) {
+        this.granthis.add(sevadar);
+        sevadar.getPathProgs().add(this);
+        return this;
+    }
+
+    public ASProgram removeGranthi(Sevadar sevadar) {
+        this.granthis.remove(sevadar);
+        sevadar.getPathProgs().remove(this);
+        return this;
+    }
+
+    public void setGranthis(Set<Sevadar> sevadars) {
+        this.granthis = sevadars;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

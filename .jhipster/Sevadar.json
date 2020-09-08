@@ -3,8 +3,7 @@
   "fields": [
     {
       "fieldName": "name",
-      "fieldType": "String",
-      "javadoc": "The firstname attribute."
+      "fieldType": "String"
     },
     {
       "fieldName": "email",
@@ -59,6 +58,20 @@
       "otherEntityName": "pathReport",
       "otherEntityRelationshipName": "pathi",
       "relationshipName": "pathReport"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "pRoul",
+      "otherEntityRelationshipName": "pathi",
+      "relationshipName": "pRoul"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "aSProgram",
+      "otherEntityRelationshipName": "granthi",
+      "relationshipName": "pathProg",
+      "otherEntityField": "desc",
+      "ownerSide": false
     }
   ],
   "changelogDate": "20200906022236",

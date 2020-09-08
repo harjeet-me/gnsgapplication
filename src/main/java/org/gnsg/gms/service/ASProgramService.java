@@ -1,17 +1,14 @@
 package org.gnsg.gms.service;
 
+import java.util.Optional;
 import org.gnsg.gms.domain.ASProgram;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link ASProgram}.
  */
 public interface ASProgramService {
-
     /**
      * Save a aSProgram.
      *
@@ -28,6 +25,12 @@ public interface ASProgramService {
      */
     Page<ASProgram> findAll(Pageable pageable);
 
+    /**
+     * Get all the aSPrograms with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    Page<ASProgram> findAllWithEagerRelationships(Pageable pageable);
 
     /**
      * Get the "id" aSProgram.
@@ -48,7 +51,7 @@ public interface ASProgramService {
      * Search for the aSProgram corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */

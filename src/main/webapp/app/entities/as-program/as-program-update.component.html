@@ -112,6 +112,13 @@
                     <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
                            formControlName="lastModifiedBy"/>
                 </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="gnsgapplicationApp.aSProgram.granthi" for="field_granthis">Granthi</label>
+                    <select class="form-control" id="field_granthis" multiple name="granthis" formControlName="granthis">
+                        <option [ngValue]="getSelected(editForm.get('granthis')!.value, sevadarOption)" *ngFor="let sevadarOption of sevadars; trackBy: trackById">{{ sevadarOption.name }}</option>
+                    </select>
+                </div>
             </div>
 
             <div>

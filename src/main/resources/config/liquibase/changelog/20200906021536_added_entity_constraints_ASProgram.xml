@@ -4,21 +4,21 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <!--
-        Added the constraints for entity PRoul.
+        Added the constraints for entity ASProgram.
     -->
-    <changeSet id="20200906022336-2" author="jhipster">
+    <changeSet id="20200906021536-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="prog_id"
-                                 baseTableName="p_roul"
-                                 constraintName="fk_p_roul_prog_id"
+        <addForeignKeyConstraint baseColumnNames="asprogram_id"
+                                 baseTableName="as_program_granthi"
+                                 constraintName="fk_as_program_granthi_as_program_id"
                                  referencedColumnNames="id"
                                  referencedTableName="as_program"/>
 
-        <addForeignKeyConstraint baseColumnNames="pathi_id"
-                                 baseTableName="p_roul"
-                                 constraintName="fk_p_roul_pathi_id"
+        <addForeignKeyConstraint baseColumnNames="granthi_id"
+                                 baseTableName="as_program_granthi"
+                                 constraintName="fk_as_program_granthi_granthi_id"
                                  referencedColumnNames="id"
                                  referencedTableName="sevadar"/>
-
+        
     </changeSet>
 </databaseChangeLog>

@@ -1,15 +1,31 @@
 package org.gnsg.gms.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.gnsg.gms.GnsgapplicationApp;
 import org.gnsg.gms.domain.PathReport;
+import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
+import org.gnsg.gms.domain.enumeration.PROGTYPE;
 import org.gnsg.gms.repository.PathReportRepository;
 import org.gnsg.gms.repository.search.PathReportSearchRepository;
 import org.gnsg.gms.service.PathReportService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,24 +35,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
-import org.gnsg.gms.domain.enumeration.PROGTYPE;
 /**
  * Integration tests for the {@link PathReportResource} REST controller.
  */
@@ -45,12 +44,11 @@ import org.gnsg.gms.domain.enumeration.PROGTYPE;
 @AutoConfigureMockMvc
 @WithMockUser
 public class PathReportResourceIT {
-
     private static final PATHSEARCHBY DEFAULT_SEARCH_BY = PATHSEARCHBY.ALL;
     private static final PATHSEARCHBY UPDATED_SEARCH_BY = PATHSEARCHBY.PATHI_SINGH_NAME;
 
-    private static final String DEFAULT_PATHI_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_PATHI_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_SEARCH_TERM = "AAAAAAAAAA";
+    private static final String UPDATED_SEARCH_TERM = "BBBBBBBBBB";
 
     private static final PROGTYPE DEFAULT_PATH_TYPE = PROGTYPE.SEHAJ_PATH;
     private static final PROGTYPE UPDATED_PATH_TYPE = PROGTYPE.AKHAND_PATH;
@@ -109,7 +107,7 @@ public class PathReportResourceIT {
     public static PathReport createEntity(EntityManager em) {
         PathReport pathReport = new PathReport()
             .searchBy(DEFAULT_SEARCH_BY)
-            .pathiName(DEFAULT_PATHI_NAME)
+            .searchTerm(DEFAULT_SEARCH_TERM)
             .pathType(DEFAULT_PATH_TYPE)
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
@@ -121,6 +119,7 @@ public class PathReportResourceIT {
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
         return pathReport;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -130,7 +129,7 @@ public class PathReportResourceIT {
     public static PathReport createUpdatedEntity(EntityManager em) {
         PathReport pathReport = new PathReport()
             .searchBy(UPDATED_SEARCH_BY)
-            .pathiName(UPDATED_PATHI_NAME)
+            .searchTerm(UPDATED_SEARCH_TERM)
             .pathType(UPDATED_PATH_TYPE)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
@@ -153,9 +152,13 @@ public class PathReportResourceIT {
     public void createPathReport() throws Exception {
         int databaseSizeBeforeCreate = pathReportRepository.findAll().size();
         // Create the PathReport
-        restPathReportMockMvc.perform(post("/api/path-reports").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pathReport)))
+        restPathReportMockMvc
+            .perform(
+                post("/api/path-reports")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(pathReport))
+            )
             .andExpect(status().isCreated());
 
         // Validate the PathReport in the database
@@ -163,7 +166,7 @@ public class PathReportResourceIT {
         assertThat(pathReportList).hasSize(databaseSizeBeforeCreate + 1);
         PathReport testPathReport = pathReportList.get(pathReportList.size() - 1);
         assertThat(testPathReport.getSearchBy()).isEqualTo(DEFAULT_SEARCH_BY);
-        assertThat(testPathReport.getPathiName()).isEqualTo(DEFAULT_PATHI_NAME);
+        assertThat(testPathReport.getSearchTerm()).isEqualTo(DEFAULT_SEARCH_TERM);
         assertThat(testPathReport.getPathType()).isEqualTo(DEFAULT_PATH_TYPE);
         assertThat(testPathReport.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testPathReport.getEndDate()).isEqualTo(DEFAULT_END_DATE);
@@ -187,9 +190,13 @@ public class PathReportResourceIT {
         pathReport.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restPathReportMockMvc.perform(post("/api/path-reports").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pathReport)))
+        restPathReportMockMvc
+            .perform(
+                post("/api/path-reports")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(pathReport))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the PathReport in the database
@@ -200,7 +207,6 @@ public class PathReportResourceIT {
         verify(mockPathReportSearchRepository, times(0)).save(pathReport);
     }
 
-
     @Test
     @Transactional
     public void getAllPathReports() throws Exception {
@@ -208,12 +214,13 @@ public class PathReportResourceIT {
         pathReportRepository.saveAndFlush(pathReport);
 
         // Get all the pathReportList
-        restPathReportMockMvc.perform(get("/api/path-reports?sort=id,desc"))
+        restPathReportMockMvc
+            .perform(get("/api/path-reports?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pathReport.getId().intValue())))
             .andExpect(jsonPath("$.[*].searchBy").value(hasItem(DEFAULT_SEARCH_BY.toString())))
-            .andExpect(jsonPath("$.[*].pathiName").value(hasItem(DEFAULT_PATHI_NAME)))
+            .andExpect(jsonPath("$.[*].searchTerm").value(hasItem(DEFAULT_SEARCH_TERM)))
             .andExpect(jsonPath("$.[*].pathType").value(hasItem(DEFAULT_PATH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
@@ -224,7 +231,7 @@ public class PathReportResourceIT {
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
-    
+
     @Test
     @Transactional
     public void getPathReport() throws Exception {
@@ -232,12 +239,13 @@ public class PathReportResourceIT {
         pathReportRepository.saveAndFlush(pathReport);
 
         // Get the pathReport
-        restPathReportMockMvc.perform(get("/api/path-reports/{id}", pathReport.getId()))
+        restPathReportMockMvc
+            .perform(get("/api/path-reports/{id}", pathReport.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(pathReport.getId().intValue()))
             .andExpect(jsonPath("$.searchBy").value(DEFAULT_SEARCH_BY.toString()))
-            .andExpect(jsonPath("$.pathiName").value(DEFAULT_PATHI_NAME))
+            .andExpect(jsonPath("$.searchTerm").value(DEFAULT_SEARCH_TERM))
             .andExpect(jsonPath("$.pathType").value(DEFAULT_PATH_TYPE.toString()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
@@ -248,12 +256,12 @@ public class PathReportResourceIT {
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
+
     @Test
     @Transactional
     public void getNonExistingPathReport() throws Exception {
         // Get the pathReport
-        restPathReportMockMvc.perform(get("/api/path-reports/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restPathReportMockMvc.perform(get("/api/path-reports/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -270,7 +278,7 @@ public class PathReportResourceIT {
         em.detach(updatedPathReport);
         updatedPathReport
             .searchBy(UPDATED_SEARCH_BY)
-            .pathiName(UPDATED_PATHI_NAME)
+            .searchTerm(UPDATED_SEARCH_TERM)
             .pathType(UPDATED_PATH_TYPE)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
@@ -281,9 +289,13 @@ public class PathReportResourceIT {
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
-        restPathReportMockMvc.perform(put("/api/path-reports").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPathReport)))
+        restPathReportMockMvc
+            .perform(
+                put("/api/path-reports")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedPathReport))
+            )
             .andExpect(status().isOk());
 
         // Validate the PathReport in the database
@@ -291,7 +303,7 @@ public class PathReportResourceIT {
         assertThat(pathReportList).hasSize(databaseSizeBeforeUpdate);
         PathReport testPathReport = pathReportList.get(pathReportList.size() - 1);
         assertThat(testPathReport.getSearchBy()).isEqualTo(UPDATED_SEARCH_BY);
-        assertThat(testPathReport.getPathiName()).isEqualTo(UPDATED_PATHI_NAME);
+        assertThat(testPathReport.getSearchTerm()).isEqualTo(UPDATED_SEARCH_TERM);
         assertThat(testPathReport.getPathType()).isEqualTo(UPDATED_PATH_TYPE);
         assertThat(testPathReport.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testPathReport.getEndDate()).isEqualTo(UPDATED_END_DATE);
@@ -312,9 +324,13 @@ public class PathReportResourceIT {
         int databaseSizeBeforeUpdate = pathReportRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restPathReportMockMvc.perform(put("/api/path-reports").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(pathReport)))
+        restPathReportMockMvc
+            .perform(
+                put("/api/path-reports")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(pathReport))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the PathReport in the database
@@ -334,8 +350,8 @@ public class PathReportResourceIT {
         int databaseSizeBeforeDelete = pathReportRepository.findAll().size();
 
         // Delete the pathReport
-        restPathReportMockMvc.perform(delete("/api/path-reports/{id}", pathReport.getId()).with(csrf())
-            .accept(MediaType.APPLICATION_JSON))
+        restPathReportMockMvc
+            .perform(delete("/api/path-reports/{id}", pathReport.getId()).with(csrf()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -356,12 +372,13 @@ public class PathReportResourceIT {
             .thenReturn(Collections.singletonList(pathReport));
 
         // Search the pathReport
-        restPathReportMockMvc.perform(get("/api/_search/path-reports?query=id:" + pathReport.getId()))
+        restPathReportMockMvc
+            .perform(get("/api/_search/path-reports?query=id:" + pathReport.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pathReport.getId().intValue())))
             .andExpect(jsonPath("$.[*].searchBy").value(hasItem(DEFAULT_SEARCH_BY.toString())))
-            .andExpect(jsonPath("$.[*].pathiName").value(hasItem(DEFAULT_PATHI_NAME)))
+            .andExpect(jsonPath("$.[*].searchTerm").value(hasItem(DEFAULT_SEARCH_TERM)))
             .andExpect(jsonPath("$.[*].pathType").value(hasItem(DEFAULT_PATH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))

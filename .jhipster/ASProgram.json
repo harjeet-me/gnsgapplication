@@ -66,6 +66,14 @@
       "otherEntityName": "pRoul",
       "otherEntityRelationshipName": "prog",
       "relationshipName": "pRoul"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "sevadar",
+      "otherEntityRelationshipName": "pathProg",
+      "relationshipName": "granthi",
+      "otherEntityField": "name",
+      "ownerSide": true
     }
   ],
   "changelogDate": "20200906021536",

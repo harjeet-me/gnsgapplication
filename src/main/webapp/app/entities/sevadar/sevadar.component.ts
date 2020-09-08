@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
-import { Subscription, combineLatest } from 'rxjs';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -39,8 +39,8 @@ export class SevadarComponent implements OnInit, OnDestroy {
         : '';
   }
 
-  loadPage(page?: number, dontNavigate?: boolean): void {
-    const pageToLoad: number = page || this.page || 1;
+  loadPage(page?: number): void {
+    const pageToLoad: number = page || this.page;
 
     if (this.currentSearch) {
       this.sevadarService
@@ -51,7 +51,7 @@ export class SevadarComponent implements OnInit, OnDestroy {
           sort: this.sort(),
         })
         .subscribe(
-          (res: HttpResponse<ISevadar[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          (res: HttpResponse<ISevadar[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
           () => this.onError()
         );
       return;
@@ -64,7 +64,7 @@ export class SevadarComponent implements OnInit, OnDestroy {
         sort: this.sort(),
       })
       .subscribe(
-        (res: HttpResponse<ISevadar[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        (res: HttpResponse<ISevadar[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
         () => this.onError()
       );
   }
@@ -75,23 +75,33 @@ export class SevadarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.handleNavigation();
+    this.activatedRoute.data.subscribe(data => {
+      this.page = data.pagingParams.page;
+      this.ascending = data.pagingParams.ascending;
+      this.predicate = data.pagingParams.predicate;
+      this.ngbPaginationPage = data.pagingParams.page;
+      this.loadPage();
+    });
+    this.handleBackNavigation();
     this.registerChangeInSevadars();
   }
 
-  protected handleNavigation(): void {
-    combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      const page = params.get('page');
-      const pageNumber = page !== null ? +page : 1;
-      const sort = (params.get('sort') ?? data['defaultSort']).split(',');
-      const predicate = sort[0];
-      const ascending = sort[1] === 'asc';
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-        this.predicate = predicate;
-        this.ascending = ascending;
-        this.loadPage(pageNumber, true);
+  handleBackNavigation(): void {
+    this.activatedRoute.queryParamMap.subscribe((params: ParamMap) => {
+      const prevPage = params.get('page');
+      const prevSort = params.get('sort');
+      const prevSortSplit = prevSort?.split(',');
+      if (prevSortSplit) {
+        this.predicate = prevSortSplit[0];
+        this.ascending = prevSortSplit[1] === 'asc';
       }
-    }).subscribe();
+      if (prevPage && +prevPage !== this.page) {
+        this.ngbPaginationPage = +prevPage;
+        this.loadPage(+prevPage);
+      } else {
+        this.loadPage(this.page);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -122,25 +132,22 @@ export class SevadarComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected onSuccess(data: ISevadar[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+  protected onSuccess(data: ISevadar[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.ngbPaginationPage = this.page;
-    if (navigate) {
-      this.router.navigate(['/sevadar'], {
-        queryParams: {
-          page: this.page,
-          size: this.itemsPerPage,
-          search: this.currentSearch,
-          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-        },
-      });
-    }
+    this.router.navigate(['/sevadar'], {
+      queryParams: {
+        page: this.page,
+        size: this.itemsPerPage,
+        search: this.currentSearch,
+        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+      },
+    });
     this.sevadars = data || [];
-    this.ngbPaginationPage = this.page;
   }
 
   protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
+    this.ngbPaginationPage = this.page;
   }
 }
