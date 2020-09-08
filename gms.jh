@@ -48,6 +48,7 @@ enum PATHSEARCHBY{
 
 entity PathReport {
     searchBy   PATHSEARCHBY ,
+    pathiName String,
     pathType PROGTYPE ,
    	startDate LocalDate,
     endDate LocalDate ,
