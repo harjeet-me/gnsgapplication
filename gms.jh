@@ -38,10 +38,16 @@ entity DailyProgramReport {
 }
 
 enum PROGTYPE{
-  SEHAJ_PATH , AKHAND_PATH 
+  SEHAJ_PATH , AKHAND_PATH
 }
 
+enum PATHSEARCHBY{
+ ALL, PATHI_SINGH_NAME , FAMILY_NAME 
+ }
+
+
 entity PathReport {
+    searchBy   PATHSEARCHBY ,
     pathType PROGTYPE ,
    	startDate LocalDate,
     endDate LocalDate ,
@@ -217,6 +223,7 @@ enum EVENTTYPE {
    //Sevadar  to   Program {sevadar(name)}
     Vendor  to   Expense {vendor(name)}
     Sevadar  to   Program {sevadar(name)}
+    Sevadar  to   PathReport {pathi(name)}
     ASProgram to  PRoul {prog(desc)} 
       //Sevadar  to   SehajPath {granthi(name)}
    }
