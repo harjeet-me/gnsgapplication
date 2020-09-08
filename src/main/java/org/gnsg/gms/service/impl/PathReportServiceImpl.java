@@ -35,12 +35,6 @@ public class PathReportServiceImpl implements PathReportService {
         this.pathReportSearchRepository = pathReportSearchRepository;
     }
 
-    /**
-     * Save a pathReport.
-     *
-     * @param pathReport the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public PathReport save(PathReport pathReport) {
         log.debug("Request to save PathReport : {}", pathReport);
@@ -49,11 +43,6 @@ public class PathReportServiceImpl implements PathReportService {
         return result;
     }
 
-    /**
-     * Get all the pathReports.
-     *
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<PathReport> findAll() {
@@ -62,12 +51,6 @@ public class PathReportServiceImpl implements PathReportService {
     }
 
 
-    /**
-     * Get one pathReport by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<PathReport> findOne(Long id) {
@@ -75,25 +58,13 @@ public class PathReportServiceImpl implements PathReportService {
         return pathReportRepository.findById(id);
     }
 
-    /**
-     * Delete the pathReport by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete PathReport : {}", id);
-
         pathReportRepository.deleteById(id);
         pathReportSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the pathReport corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<PathReport> search(String query) {

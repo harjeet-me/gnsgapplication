@@ -113,7 +113,6 @@ public class DailyProgramReportResource {
     @DeleteMapping("/daily-program-reports/{id}")
     public ResponseEntity<Void> deleteDailyProgramReport(@PathVariable Long id) {
         log.debug("REST request to delete DailyProgramReport : {}", id);
-
         dailyProgramReportService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

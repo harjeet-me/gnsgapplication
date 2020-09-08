@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
 import { IPRoul } from 'app/shared/model/p-roul.model';
@@ -58,6 +59,7 @@ export class PRoulService {
 
   protected convertDateFromClient(pRoul: IPRoul): IPRoul {
     const copy: IPRoul = Object.assign({}, pRoul, {
+      bhogDate: pRoul.bhogDate && pRoul.bhogDate.isValid() ? pRoul.bhogDate.format(DATE_FORMAT) : undefined,
       createdDate: pRoul.createdDate && pRoul.createdDate.isValid() ? pRoul.createdDate.toJSON() : undefined,
       lastModifiedDate: pRoul.lastModifiedDate && pRoul.lastModifiedDate.isValid() ? pRoul.lastModifiedDate.toJSON() : undefined,
     });
@@ -66,6 +68,7 @@ export class PRoulService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
+      res.body.bhogDate = res.body.bhogDate ? moment(res.body.bhogDate) : undefined;
       res.body.createdDate = res.body.createdDate ? moment(res.body.createdDate) : undefined;
       res.body.lastModifiedDate = res.body.lastModifiedDate ? moment(res.body.lastModifiedDate) : undefined;
     }
@@ -75,6 +78,7 @@ export class PRoulService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((pRoul: IPRoul) => {
+        pRoul.bhogDate = pRoul.bhogDate ? moment(pRoul.bhogDate) : undefined;
         pRoul.createdDate = pRoul.createdDate ? moment(pRoul.createdDate) : undefined;
         pRoul.lastModifiedDate = pRoul.lastModifiedDate ? moment(pRoul.lastModifiedDate) : undefined;
       });

@@ -8,9 +8,9 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.name" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.name' | translate">Name</span></dt>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.pathName" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.pathName' | translate">Path Name</span></dt>
                 <dd>
-                    <span>{{ pRoul.name }}</span>
+                    <span>{{ pRoul.pathName }}</span>
                 </dd>
                 <dt><span jhiTranslate="gnsgapplicationApp.pRoul.desc">Desc</span></dt>
                 <dd>
@@ -19,6 +19,14 @@
                 <dt><span jhiTranslate="gnsgapplicationApp.pRoul.totalRoul">Total Roul</span></dt>
                 <dd>
                     <span>{{ pRoul.totalRoul }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.totalAmt">Total Amt</span></dt>
+                <dd>
+                    <span>{{ pRoul.totalAmt }}</span>
+                </dd>
+                <dt><span jhiTranslate="gnsgapplicationApp.pRoul.bhogDate">Bhog Date</span></dt>
+                <dd>
+                    <span>{{ pRoul.bhogDate }}</span>
                 </dd>
                 <dt><span jhiTranslate="gnsgapplicationApp.pRoul.createdDate">Created Date</span></dt>
                 <dd>

@@ -12,9 +12,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.name" for="field_name" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.name' | translate">Name</label>
-                    <input type="text" class="form-control" name="name" id="field_name"
-                           formControlName="name"/>
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.pathName" for="field_pathName" [ngbTooltip]="'gnsgapplicationApp.pRoul.help.pathName' | translate">Path Name</label>
+                    <input type="text" class="form-control" name="pathName" id="field_pathName"
+                           formControlName="pathName"/>
                 </div>
 
                 <div class="form-group">
@@ -25,8 +25,24 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.totalRoul" for="field_totalRoul">Total Roul</label>
-                    <input type="text" class="form-control" name="totalRoul" id="field_totalRoul"
+                    <input type="number" class="form-control" name="totalRoul" id="field_totalRoul"
                            formControlName="totalRoul"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.totalAmt" for="field_totalAmt">Total Amt</label>
+                    <input type="number" class="form-control" name="totalAmt" id="field_totalAmt"
+                           formControlName="totalAmt"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.bhogDate" for="field_bhogDate">Bhog Date</label>
+                    <div class="input-group">
+                        <input id="field_bhogDate" type="text" class="form-control" name="bhogDate" ngbDatepicker #bhogDateDp="ngbDatepicker" formControlName="bhogDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="bhogDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-group">

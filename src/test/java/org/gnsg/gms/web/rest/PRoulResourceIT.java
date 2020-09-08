@@ -21,7 +21,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -43,14 +45,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class PRoulResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_PATH_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PATH_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_DESC = "AAAAAAAAAA";
     private static final String UPDATED_DESC = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TOTAL_ROUL = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_ROUL = "BBBBBBBBBB";
+    private static final Double DEFAULT_TOTAL_ROUL = 1D;
+    private static final Double UPDATED_TOTAL_ROUL = 2D;
+
+    private static final Double DEFAULT_TOTAL_AMT = 1D;
+    private static final Double UPDATED_TOTAL_AMT = 2D;
+
+    private static final LocalDate DEFAULT_BHOG_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_BHOG_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -94,9 +102,11 @@ public class PRoulResourceIT {
      */
     public static PRoul createEntity(EntityManager em) {
         PRoul pRoul = new PRoul()
-            .name(DEFAULT_NAME)
+            .pathName(DEFAULT_PATH_NAME)
             .desc(DEFAULT_DESC)
             .totalRoul(DEFAULT_TOTAL_ROUL)
+            .totalAmt(DEFAULT_TOTAL_AMT)
+            .bhogDate(DEFAULT_BHOG_DATE)
             .createdDate(DEFAULT_CREATED_DATE)
             .createdBy(DEFAULT_CREATED_BY)
             .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE)
@@ -111,9 +121,11 @@ public class PRoulResourceIT {
      */
     public static PRoul createUpdatedEntity(EntityManager em) {
         PRoul pRoul = new PRoul()
-            .name(UPDATED_NAME)
+            .pathName(UPDATED_PATH_NAME)
             .desc(UPDATED_DESC)
             .totalRoul(UPDATED_TOTAL_ROUL)
+            .totalAmt(UPDATED_TOTAL_AMT)
+            .bhogDate(UPDATED_BHOG_DATE)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
@@ -140,9 +152,11 @@ public class PRoulResourceIT {
         List<PRoul> pRoulList = pRoulRepository.findAll();
         assertThat(pRoulList).hasSize(databaseSizeBeforeCreate + 1);
         PRoul testPRoul = pRoulList.get(pRoulList.size() - 1);
-        assertThat(testPRoul.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testPRoul.getPathName()).isEqualTo(DEFAULT_PATH_NAME);
         assertThat(testPRoul.getDesc()).isEqualTo(DEFAULT_DESC);
         assertThat(testPRoul.getTotalRoul()).isEqualTo(DEFAULT_TOTAL_ROUL);
+        assertThat(testPRoul.getTotalAmt()).isEqualTo(DEFAULT_TOTAL_AMT);
+        assertThat(testPRoul.getBhogDate()).isEqualTo(DEFAULT_BHOG_DATE);
         assertThat(testPRoul.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testPRoul.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testPRoul.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
@@ -186,9 +200,11 @@ public class PRoulResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pRoul.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].pathName").value(hasItem(DEFAULT_PATH_NAME)))
             .andExpect(jsonPath("$.[*].desc").value(hasItem(DEFAULT_DESC)))
-            .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL)))
+            .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalAmt").value(hasItem(DEFAULT_TOTAL_AMT.doubleValue())))
+            .andExpect(jsonPath("$.[*].bhogDate").value(hasItem(DEFAULT_BHOG_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
@@ -206,9 +222,11 @@ public class PRoulResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(pRoul.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.pathName").value(DEFAULT_PATH_NAME))
             .andExpect(jsonPath("$.desc").value(DEFAULT_DESC))
-            .andExpect(jsonPath("$.totalRoul").value(DEFAULT_TOTAL_ROUL))
+            .andExpect(jsonPath("$.totalRoul").value(DEFAULT_TOTAL_ROUL.doubleValue()))
+            .andExpect(jsonPath("$.totalAmt").value(DEFAULT_TOTAL_AMT.doubleValue()))
+            .andExpect(jsonPath("$.bhogDate").value(DEFAULT_BHOG_DATE.toString()))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
@@ -235,9 +253,11 @@ public class PRoulResourceIT {
         // Disconnect from session so that the updates on updatedPRoul are not directly saved in db
         em.detach(updatedPRoul);
         updatedPRoul
-            .name(UPDATED_NAME)
+            .pathName(UPDATED_PATH_NAME)
             .desc(UPDATED_DESC)
             .totalRoul(UPDATED_TOTAL_ROUL)
+            .totalAmt(UPDATED_TOTAL_AMT)
+            .bhogDate(UPDATED_BHOG_DATE)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
@@ -252,9 +272,11 @@ public class PRoulResourceIT {
         List<PRoul> pRoulList = pRoulRepository.findAll();
         assertThat(pRoulList).hasSize(databaseSizeBeforeUpdate);
         PRoul testPRoul = pRoulList.get(pRoulList.size() - 1);
-        assertThat(testPRoul.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testPRoul.getPathName()).isEqualTo(UPDATED_PATH_NAME);
         assertThat(testPRoul.getDesc()).isEqualTo(UPDATED_DESC);
         assertThat(testPRoul.getTotalRoul()).isEqualTo(UPDATED_TOTAL_ROUL);
+        assertThat(testPRoul.getTotalAmt()).isEqualTo(UPDATED_TOTAL_AMT);
+        assertThat(testPRoul.getBhogDate()).isEqualTo(UPDATED_BHOG_DATE);
         assertThat(testPRoul.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testPRoul.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testPRoul.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
@@ -318,9 +340,11 @@ public class PRoulResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(pRoul.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].pathName").value(hasItem(DEFAULT_PATH_NAME)))
             .andExpect(jsonPath("$.[*].desc").value(hasItem(DEFAULT_DESC)))
-            .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL)))
+            .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalAmt").value(hasItem(DEFAULT_TOTAL_AMT.doubleValue())))
+            .andExpect(jsonPath("$.[*].bhogDate").value(hasItem(DEFAULT_BHOG_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))

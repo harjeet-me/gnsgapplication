@@ -4,9 +4,11 @@ import { IASProgram } from 'app/shared/model/as-program.model';
 
 export interface IPRoul {
   id?: number;
-  name?: string;
+  pathName?: string;
   desc?: string;
-  totalRoul?: string;
+  totalRoul?: number;
+  totalAmt?: number;
+  bhogDate?: Moment;
   createdDate?: Moment;
   createdBy?: string;
   lastModifiedDate?: Moment;
@@ -18,9 +20,11 @@ export interface IPRoul {
 export class PRoul implements IPRoul {
   constructor(
     public id?: number,
-    public name?: string,
+    public pathName?: string,
     public desc?: string,
-    public totalRoul?: string,
+    public totalRoul?: number,
+    public totalAmt?: number,
+    public bhogDate?: Moment,
     public createdDate?: Moment,
     public createdBy?: string,
     public lastModifiedDate?: Moment,

@@ -113,7 +113,6 @@ public class RevenueResource {
     @DeleteMapping("/revenues/{id}")
     public ResponseEntity<Void> deleteRevenue(@PathVariable Long id) {
         log.debug("REST request to delete Revenue : {}", id);
-
         revenueService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

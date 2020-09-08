@@ -1,7 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PRoulService } from 'app/entities/p-roul/p-roul.service';
 import { IPRoul, PRoul } from 'app/shared/model/p-roul.model';
 
@@ -24,13 +24,14 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new PRoul(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate, 'AAAAAAA');
+      elemDefault = new PRoul(0, 'AAAAAAA', 'AAAAAAA', 0, 0, currentDate, currentDate, 'AAAAAAA', currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
+            bhogDate: currentDate.format(DATE_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -48,6 +49,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            bhogDate: currentDate.format(DATE_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -56,6 +58,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            bhogDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -72,9 +75,11 @@ describe('Service Tests', () => {
       it('should update a PRoul', () => {
         const returnedFromService = Object.assign(
           {
-            name: 'BBBBBB',
+            pathName: 'BBBBBB',
             desc: 'BBBBBB',
-            totalRoul: 'BBBBBB',
+            totalRoul: 1,
+            totalAmt: 1,
+            bhogDate: currentDate.format(DATE_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -85,6 +90,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            bhogDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -101,9 +107,11 @@ describe('Service Tests', () => {
       it('should return a list of PRoul', () => {
         const returnedFromService = Object.assign(
           {
-            name: 'BBBBBB',
+            pathName: 'BBBBBB',
             desc: 'BBBBBB',
-            totalRoul: 'BBBBBB',
+            totalRoul: 1,
+            totalAmt: 1,
+            bhogDate: currentDate.format(DATE_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -114,6 +122,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            bhogDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
