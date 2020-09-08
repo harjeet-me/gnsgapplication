@@ -35,12 +35,6 @@ public class DailyProgramReportServiceImpl implements DailyProgramReportService 
         this.dailyProgramReportSearchRepository = dailyProgramReportSearchRepository;
     }
 
-    /**
-     * Save a dailyProgramReport.
-     *
-     * @param dailyProgramReport the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public DailyProgramReport save(DailyProgramReport dailyProgramReport) {
         log.debug("Request to save DailyProgramReport : {}", dailyProgramReport);
@@ -49,11 +43,6 @@ public class DailyProgramReportServiceImpl implements DailyProgramReportService 
         return result;
     }
 
-    /**
-     * Get all the dailyProgramReports.
-     *
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<DailyProgramReport> findAll() {
@@ -62,12 +51,6 @@ public class DailyProgramReportServiceImpl implements DailyProgramReportService 
     }
 
 
-    /**
-     * Get one dailyProgramReport by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<DailyProgramReport> findOne(Long id) {
@@ -75,25 +58,13 @@ public class DailyProgramReportServiceImpl implements DailyProgramReportService 
         return dailyProgramReportRepository.findById(id);
     }
 
-    /**
-     * Delete the dailyProgramReport by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete DailyProgramReport : {}", id);
-
         dailyProgramReportRepository.deleteById(id);
         dailyProgramReportSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the dailyProgramReport corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<DailyProgramReport> search(String query) {

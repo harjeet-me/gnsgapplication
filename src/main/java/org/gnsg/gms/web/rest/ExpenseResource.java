@@ -113,7 +113,6 @@ public class ExpenseResource {
     @DeleteMapping("/expenses/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
         log.debug("REST request to delete Expense : {}", id);
-
         expenseService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

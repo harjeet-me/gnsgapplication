@@ -34,12 +34,6 @@ public class SevadarServiceImpl implements SevadarService {
         this.sevadarSearchRepository = sevadarSearchRepository;
     }
 
-    /**
-     * Save a sevadar.
-     *
-     * @param sevadar the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public Sevadar save(Sevadar sevadar) {
         log.debug("Request to save Sevadar : {}", sevadar);
@@ -48,12 +42,6 @@ public class SevadarServiceImpl implements SevadarService {
         return result;
     }
 
-    /**
-     * Get all the sevadars.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<Sevadar> findAll(Pageable pageable) {
@@ -62,12 +50,6 @@ public class SevadarServiceImpl implements SevadarService {
     }
 
 
-    /**
-     * Get one sevadar by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Sevadar> findOne(Long id) {
@@ -75,26 +57,13 @@ public class SevadarServiceImpl implements SevadarService {
         return sevadarRepository.findById(id);
     }
 
-    /**
-     * Delete the sevadar by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Sevadar : {}", id);
-
         sevadarRepository.deleteById(id);
         sevadarSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the sevadar corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<Sevadar> search(String query, Pageable pageable) {

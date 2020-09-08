@@ -113,7 +113,6 @@ public class VendorResource {
     @DeleteMapping("/vendors/{id}")
     public ResponseEntity<Void> deleteVendor(@PathVariable Long id) {
         log.debug("REST request to delete Vendor : {}", id);
-
         vendorService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

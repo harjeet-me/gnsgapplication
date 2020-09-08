@@ -122,7 +122,6 @@ public class PRoulResource {
     @DeleteMapping("/p-rouls/{id}")
     public ResponseEntity<Void> deletePRoul(@PathVariable Long id) {
         log.debug("REST request to delete PRoul : {}", id);
-
         pRoulService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

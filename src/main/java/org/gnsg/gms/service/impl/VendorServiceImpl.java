@@ -35,12 +35,6 @@ public class VendorServiceImpl implements VendorService {
         this.vendorSearchRepository = vendorSearchRepository;
     }
 
-    /**
-     * Save a vendor.
-     *
-     * @param vendor the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public Vendor save(Vendor vendor) {
         log.debug("Request to save Vendor : {}", vendor);
@@ -49,11 +43,6 @@ public class VendorServiceImpl implements VendorService {
         return result;
     }
 
-    /**
-     * Get all the vendors.
-     *
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Vendor> findAll() {
@@ -62,12 +51,6 @@ public class VendorServiceImpl implements VendorService {
     }
 
 
-    /**
-     * Get one vendor by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Vendor> findOne(Long id) {
@@ -75,25 +58,13 @@ public class VendorServiceImpl implements VendorService {
         return vendorRepository.findById(id);
     }
 
-    /**
-     * Delete the vendor by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Vendor : {}", id);
-
         vendorRepository.deleteById(id);
         vendorSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the vendor corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Vendor> search(String query) {

@@ -35,12 +35,6 @@ public class RevenueServiceImpl implements RevenueService {
         this.revenueSearchRepository = revenueSearchRepository;
     }
 
-    /**
-     * Save a revenue.
-     *
-     * @param revenue the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public Revenue save(Revenue revenue) {
         log.debug("Request to save Revenue : {}", revenue);
@@ -49,11 +43,6 @@ public class RevenueServiceImpl implements RevenueService {
         return result;
     }
 
-    /**
-     * Get all the revenues.
-     *
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Revenue> findAll() {
@@ -62,12 +51,6 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
 
-    /**
-     * Get one revenue by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Revenue> findOne(Long id) {
@@ -75,25 +58,13 @@ public class RevenueServiceImpl implements RevenueService {
         return revenueRepository.findById(id);
     }
 
-    /**
-     * Delete the revenue by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Revenue : {}", id);
-
         revenueRepository.deleteById(id);
         revenueSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the revenue corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Revenue> search(String query) {

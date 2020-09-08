@@ -34,12 +34,6 @@ public class ProgramServiceImpl implements ProgramService {
         this.programSearchRepository = programSearchRepository;
     }
 
-    /**
-     * Save a program.
-     *
-     * @param program the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public Program save(Program program) {
         log.debug("Request to save Program : {}", program);
@@ -48,12 +42,6 @@ public class ProgramServiceImpl implements ProgramService {
         return result;
     }
 
-    /**
-     * Get all the programs.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<Program> findAll(Pageable pageable) {
@@ -62,12 +50,6 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
 
-    /**
-     * Get one program by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Program> findOne(Long id) {
@@ -75,26 +57,13 @@ public class ProgramServiceImpl implements ProgramService {
         return programRepository.findById(id);
     }
 
-    /**
-     * Delete the program by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Program : {}", id);
-
         programRepository.deleteById(id);
         programSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the program corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<Program> search(String query, Pageable pageable) {

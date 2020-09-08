@@ -35,12 +35,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         this.expenseReportSearchRepository = expenseReportSearchRepository;
     }
 
-    /**
-     * Save a expenseReport.
-     *
-     * @param expenseReport the entity to save.
-     * @return the persisted entity.
-     */
     @Override
     public ExpenseReport save(ExpenseReport expenseReport) {
         log.debug("Request to save ExpenseReport : {}", expenseReport);
@@ -49,11 +43,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         return result;
     }
 
-    /**
-     * Get all the expenseReports.
-     *
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<ExpenseReport> findAll() {
@@ -62,12 +51,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
     }
 
 
-    /**
-     * Get one expenseReport by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<ExpenseReport> findOne(Long id) {
@@ -75,25 +58,13 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         return expenseReportRepository.findById(id);
     }
 
-    /**
-     * Delete the expenseReport by id.
-     *
-     * @param id the id of the entity.
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete ExpenseReport : {}", id);
-
         expenseReportRepository.deleteById(id);
         expenseReportSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the expenseReport corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @return the list of entities.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<ExpenseReport> search(String query) {

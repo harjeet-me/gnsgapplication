@@ -16,13 +16,19 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)" remarks="The firstname attribute.">
+            <column name="path_name" type="varchar(255)" remarks="The firstname attribute.">
                 <constraints nullable="true" />
             </column>
             <column name="jhi_desc" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="total_roul" type="varchar(255)">
+            <column name="total_roul" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_amt" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bhog_date" type="date">
                 <constraints nullable="true" />
             </column>
             <column name="created_date" type="datetime">
@@ -68,9 +74,11 @@
                   separator=";"
                   tableName="p_roul">
             <column name="id" type="numeric"/>
-            <column name="name" type="string"/>
+            <column name="path_name" type="string"/>
             <column name="jhi_desc" type="string"/>
-            <column name="total_roul" type="string"/>
+            <column name="total_roul" type="numeric"/>
+            <column name="total_amt" type="numeric"/>
+            <column name="bhog_date" type="date"/>
             <column name="created_date" type="datetime"/>
             <column name="created_by" type="string"/>
             <column name="last_modified_date" type="datetime"/>

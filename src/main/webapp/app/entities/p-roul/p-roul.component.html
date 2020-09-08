@@ -41,9 +41,11 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="name"><span jhiTranslate="gnsgapplicationApp.pRoul.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="pathName"><span jhiTranslate="gnsgapplicationApp.pRoul.pathName">Path Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="desc"><span jhiTranslate="gnsgapplicationApp.pRoul.desc">Desc</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalRoul"><span jhiTranslate="gnsgapplicationApp.pRoul.totalRoul">Total Roul</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalAmt"><span jhiTranslate="gnsgapplicationApp.pRoul.totalAmt">Total Amt</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="bhogDate"><span jhiTranslate="gnsgapplicationApp.pRoul.bhogDate">Bhog Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="gnsgapplicationApp.pRoul.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="gnsgapplicationApp.pRoul.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="gnsgapplicationApp.pRoul.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
@@ -56,9 +58,11 @@
             <tbody>
                 <tr *ngFor="let pRoul of pRouls ;trackBy: trackId">
                     <td><a [routerLink]="['/p-roul', pRoul.id, 'view']">{{ pRoul.id }}</a></td>
-                    <td>{{ pRoul.name }}</td>
+                    <td>{{ pRoul.pathName }}</td>
                     <td>{{ pRoul.desc }}</td>
                     <td>{{ pRoul.totalRoul }}</td>
+                    <td>{{ pRoul.totalAmt }}</td>
+                    <td>{{ pRoul.bhogDate | date:'mediumDate' }}</td>
                     <td>{{ pRoul.createdDate | date:'medium' }}</td>
                     <td>{{ pRoul.createdBy }}</td>
                     <td>{{ pRoul.lastModifiedDate | date:'medium' }}</td>
