@@ -47,6 +47,7 @@
                     <th scope="col"  jhiSortBy="address"><span jhiTranslate="gnsgapplicationApp.sevadar.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="sevaStartDate"><span jhiTranslate="gnsgapplicationApp.sevadar.sevaStartDate">Seva Start Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="sevaEndDate"><span jhiTranslate="gnsgapplicationApp.sevadar.sevaEndDate">Seva End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="defaultRouls"><span jhiTranslate="gnsgapplicationApp.sevadar.defaultRouls">Default Rouls</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="isValid"><span jhiTranslate="gnsgapplicationApp.sevadar.isValid">Is Valid</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="gnsgapplicationApp.sevadar.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="gnsgapplicationApp.sevadar.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
@@ -64,6 +65,7 @@
                     <td>{{ sevadar.address }}</td>
                     <td>{{ sevadar.sevaStartDate | date:'medium' }}</td>
                     <td>{{ sevadar.sevaEndDate | date:'medium' }}</td>
+                    <td>{{ sevadar.defaultRouls }}</td>
                     <td>{{ sevadar.isValid }}</td>
                     <td>{{ sevadar.createdDate | date:'medium' }}</td>
                     <td>{{ sevadar.createdBy }}</td>

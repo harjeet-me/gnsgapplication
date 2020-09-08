@@ -12,6 +12,7 @@ export interface ISevadar {
   address?: string;
   sevaStartDate?: Moment;
   sevaEndDate?: Moment;
+  defaultRouls?: number;
   isValid?: boolean;
   createdDate?: Moment;
   createdBy?: string;
@@ -32,6 +33,7 @@ export class Sevadar implements ISevadar {
     public address?: string,
     public sevaStartDate?: Moment,
     public sevaEndDate?: Moment,
+    public defaultRouls?: number,
     public isValid?: boolean,
     public createdDate?: Moment,
     public createdBy?: string,

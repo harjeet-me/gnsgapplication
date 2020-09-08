@@ -10,8 +10,10 @@ import org.gnsg.gms.domain.PathReport;
 import org.gnsg.gms.repository.PathReportRepository;
 import org.gnsg.gms.repository.search.PathReportSearchRepository;
 import org.gnsg.gms.service.PathReportService;
+import org.gnsg.gms.v1.helper.PathiReportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,9 @@ public class PathReportServiceImpl implements PathReportService {
 
     private final PathReportSearchRepository pathReportSearchRepository;
 
+    @Autowired
+    PathiReportHelper pathiReportHelper;
+
     public PathReportServiceImpl(PathReportRepository pathReportRepository, PathReportSearchRepository pathReportSearchRepository) {
         this.pathReportRepository = pathReportRepository;
         this.pathReportSearchRepository = pathReportSearchRepository;
@@ -41,6 +46,7 @@ public class PathReportServiceImpl implements PathReportService {
     @Override
     public PathReport save(PathReport pathReport) {
         log.debug("Request to save PathReport : {}", pathReport);
+        pathReport = pathiReportHelper.generatePathReport(pathReport);
         PathReport result = pathReportRepository.save(pathReport);
         pathReportSearchRepository.save(result);
         return result;

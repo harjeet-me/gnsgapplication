@@ -25,6 +25,7 @@ export class SevadarUpdateComponent implements OnInit {
     address: [],
     sevaStartDate: [],
     sevaEndDate: [],
+    defaultRouls: [],
     isValid: [],
     createdDate: [],
     createdBy: [],
@@ -57,6 +58,7 @@ export class SevadarUpdateComponent implements OnInit {
       address: sevadar.address,
       sevaStartDate: sevadar.sevaStartDate ? sevadar.sevaStartDate.format(DATE_TIME_FORMAT) : null,
       sevaEndDate: sevadar.sevaEndDate ? sevadar.sevaEndDate.format(DATE_TIME_FORMAT) : null,
+      defaultRouls: sevadar.defaultRouls,
       isValid: sevadar.isValid,
       createdDate: sevadar.createdDate ? sevadar.createdDate.format(DATE_TIME_FORMAT) : null,
       createdBy: sevadar.createdBy,
@@ -93,6 +95,7 @@ export class SevadarUpdateComponent implements OnInit {
       sevaEndDate: this.editForm.get(['sevaEndDate'])!.value
         ? moment(this.editForm.get(['sevaEndDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      defaultRouls: this.editForm.get(['defaultRouls'])!.value,
       isValid: this.editForm.get(['isValid'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)

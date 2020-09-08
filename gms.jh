@@ -181,8 +181,9 @@ entity Sevadar {
     address String ,
     sevaStartDate Instant,
     sevaEndDate Instant,
+	defaultRouls Integer,
 	isValid Boolean,
-     createdDate Instant ,
+    createdDate Instant ,
     createdBy String ,
     lastModifiedDate Instant ,
     lastModifiedBy String
@@ -197,6 +198,7 @@ entity PRoul {
 	totalRoul Double ,
     totalAmt Double ,
     bhogDate LocalDate ,
+	isPaid Boolean,
     createdDate Instant ,
     createdBy String ,
     lastModifiedDate Instant ,

@@ -2,6 +2,7 @@
   "gnsgapplicationApp": {
     "PROGTYPE": {
       "null": "",
+      "ALL": "ALL",
       "SEHAJ_PATH": "SEHAJ_PATH",
       "AKHAND_PATH": "AKHAND_PATH"
     }

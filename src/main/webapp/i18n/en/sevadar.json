@@ -23,6 +23,7 @@
       "address": "Address",
       "sevaStartDate": "Seva Start Date",
       "sevaEndDate": "Seva End Date",
+      "defaultRouls": "Default Rouls",
       "isValid": "Is Valid",
       "createdDate": "Created Date",
       "createdBy": "Created By",

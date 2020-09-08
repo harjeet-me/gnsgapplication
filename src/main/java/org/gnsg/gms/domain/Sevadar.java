@@ -44,6 +44,9 @@ public class Sevadar implements Serializable {
     @Column(name = "seva_end_date")
     private Instant sevaEndDate;
 
+    @Column(name = "default_rouls")
+    private Integer defaultRouls;
+
     @Column(name = "is_valid")
     private Boolean isValid;
 
@@ -161,6 +164,19 @@ public class Sevadar implements Serializable {
 
     public void setSevaEndDate(Instant sevaEndDate) {
         this.sevaEndDate = sevaEndDate;
+    }
+
+    public Integer getDefaultRouls() {
+        return defaultRouls;
+    }
+
+    public Sevadar defaultRouls(Integer defaultRouls) {
+        this.defaultRouls = defaultRouls;
+        return this;
+    }
+
+    public void setDefaultRouls(Integer defaultRouls) {
+        this.defaultRouls = defaultRouls;
     }
 
     public Boolean isIsValid() {
@@ -357,6 +373,7 @@ public class Sevadar implements Serializable {
             ", address='" + getAddress() + "'" +
             ", sevaStartDate='" + getSevaStartDate() + "'" +
             ", sevaEndDate='" + getSevaEndDate() + "'" +
+            ", defaultRouls=" + getDefaultRouls() +
             ", isValid='" + isIsValid() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +

@@ -19,15 +19,28 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+
+
+               <div *ngIf="editForm.get(['searchBy'])!.value==='PATHI_SINGH_NAME'" class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathi" for="field_pathi">Pathi</label>
+                    <select class="form-control" id="field_pathi" name="pathi" formControlName="pathi">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="sevadarOption.id === editForm.get('pathi')!.value?.id ? editForm.get('pathi')!.value : sevadarOption" *ngFor="let sevadarOption of sevadars; trackBy: trackById">{{ sevadarOption.name }}</option>
+                    </select>
+                </div>
+                
+                
+                
+              <!--   <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.searchTerm" for="field_searchTerm">Search Term</label>
                     <input type="text" class="form-control" name="searchTerm" id="field_searchTerm"
                            formControlName="searchTerm"/>
                 </div>
-
+             -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathType" for="field_pathType">Path Type</label>
                     <select class="form-control" name="pathType" formControlName="pathType" id="field_pathType">
+                       <option value="ALL">{{ 'gnsgapplicationApp.PROGTYPE.ALL' | translate }}</option>
                         <option value="SEHAJ_PATH">{{ 'gnsgapplicationApp.PROGTYPE.SEHAJ_PATH' | translate }}</option>
                         <option value="AKHAND_PATH">{{ 'gnsgapplicationApp.PROGTYPE.AKHAND_PATH' | translate }}</option>
                     </select>
@@ -53,7 +66,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+               <!--  <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.report" for="field_report">Report</label>
                     <div>
                         <div *ngIf="editForm.get('report')!.value" class="form-text text-danger clearfix">
@@ -97,14 +110,8 @@
                     <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
                            formControlName="lastModifiedBy"/>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pathReport.pathi" for="field_pathi">Pathi</label>
-                    <select class="form-control" id="field_pathi" name="pathi" formControlName="pathi">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="sevadarOption.id === editForm.get('pathi')!.value?.id ? editForm.get('pathi')!.value : sevadarOption" *ngFor="let sevadarOption of sevadars; trackBy: trackById">{{ sevadarOption.name }}</option>
-                    </select>
-                </div>
+ -->
+              
             </div>
 
             <div>

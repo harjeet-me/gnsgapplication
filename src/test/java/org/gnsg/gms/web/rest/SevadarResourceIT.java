@@ -1,15 +1,27 @@
 package org.gnsg.gms.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.gnsg.gms.GnsgapplicationApp;
 import org.gnsg.gms.domain.Sevadar;
 import org.gnsg.gms.repository.SevadarRepository;
 import org.gnsg.gms.repository.search.SevadarSearchRepository;
 import org.gnsg.gms.service.SevadarService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,19 +32,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link SevadarResource} REST controller.
@@ -42,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class SevadarResourceIT {
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -60,6 +58,9 @@ public class SevadarResourceIT {
 
     private static final Instant DEFAULT_SEVA_END_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_SEVA_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Integer DEFAULT_DEFAULT_ROULS = 1;
+    private static final Integer UPDATED_DEFAULT_ROULS = 2;
 
     private static final Boolean DEFAULT_IS_VALID = false;
     private static final Boolean UPDATED_IS_VALID = true;
@@ -112,6 +113,7 @@ public class SevadarResourceIT {
             .address(DEFAULT_ADDRESS)
             .sevaStartDate(DEFAULT_SEVA_START_DATE)
             .sevaEndDate(DEFAULT_SEVA_END_DATE)
+            .defaultRouls(DEFAULT_DEFAULT_ROULS)
             .isValid(DEFAULT_IS_VALID)
             .createdDate(DEFAULT_CREATED_DATE)
             .createdBy(DEFAULT_CREATED_BY)
@@ -119,6 +121,7 @@ public class SevadarResourceIT {
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
         return sevadar;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -133,6 +136,7 @@ public class SevadarResourceIT {
             .address(UPDATED_ADDRESS)
             .sevaStartDate(UPDATED_SEVA_START_DATE)
             .sevaEndDate(UPDATED_SEVA_END_DATE)
+            .defaultRouls(UPDATED_DEFAULT_ROULS)
             .isValid(UPDATED_IS_VALID)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
@@ -151,9 +155,13 @@ public class SevadarResourceIT {
     public void createSevadar() throws Exception {
         int databaseSizeBeforeCreate = sevadarRepository.findAll().size();
         // Create the Sevadar
-        restSevadarMockMvc.perform(post("/api/sevadars").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(sevadar)))
+        restSevadarMockMvc
+            .perform(
+                post("/api/sevadars")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(sevadar))
+            )
             .andExpect(status().isCreated());
 
         // Validate the Sevadar in the database
@@ -166,6 +174,7 @@ public class SevadarResourceIT {
         assertThat(testSevadar.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testSevadar.getSevaStartDate()).isEqualTo(DEFAULT_SEVA_START_DATE);
         assertThat(testSevadar.getSevaEndDate()).isEqualTo(DEFAULT_SEVA_END_DATE);
+        assertThat(testSevadar.getDefaultRouls()).isEqualTo(DEFAULT_DEFAULT_ROULS);
         assertThat(testSevadar.isIsValid()).isEqualTo(DEFAULT_IS_VALID);
         assertThat(testSevadar.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testSevadar.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
@@ -185,9 +194,13 @@ public class SevadarResourceIT {
         sevadar.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restSevadarMockMvc.perform(post("/api/sevadars").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(sevadar)))
+        restSevadarMockMvc
+            .perform(
+                post("/api/sevadars")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(sevadar))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Sevadar in the database
@@ -198,7 +211,6 @@ public class SevadarResourceIT {
         verify(mockSevadarSearchRepository, times(0)).save(sevadar);
     }
 
-
     @Test
     @Transactional
     public void getAllSevadars() throws Exception {
@@ -206,7 +218,8 @@ public class SevadarResourceIT {
         sevadarRepository.saveAndFlush(sevadar);
 
         // Get all the sevadarList
-        restSevadarMockMvc.perform(get("/api/sevadars?sort=id,desc"))
+        restSevadarMockMvc
+            .perform(get("/api/sevadars?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(sevadar.getId().intValue())))
@@ -216,13 +229,14 @@ public class SevadarResourceIT {
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].sevaStartDate").value(hasItem(DEFAULT_SEVA_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].sevaEndDate").value(hasItem(DEFAULT_SEVA_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].defaultRouls").value(hasItem(DEFAULT_DEFAULT_ROULS)))
             .andExpect(jsonPath("$.[*].isValid").value(hasItem(DEFAULT_IS_VALID.booleanValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
-    
+
     @Test
     @Transactional
     public void getSevadar() throws Exception {
@@ -230,7 +244,8 @@ public class SevadarResourceIT {
         sevadarRepository.saveAndFlush(sevadar);
 
         // Get the sevadar
-        restSevadarMockMvc.perform(get("/api/sevadars/{id}", sevadar.getId()))
+        restSevadarMockMvc
+            .perform(get("/api/sevadars/{id}", sevadar.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(sevadar.getId().intValue()))
@@ -240,18 +255,19 @@ public class SevadarResourceIT {
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.sevaStartDate").value(DEFAULT_SEVA_START_DATE.toString()))
             .andExpect(jsonPath("$.sevaEndDate").value(DEFAULT_SEVA_END_DATE.toString()))
+            .andExpect(jsonPath("$.defaultRouls").value(DEFAULT_DEFAULT_ROULS))
             .andExpect(jsonPath("$.isValid").value(DEFAULT_IS_VALID.booleanValue()))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
+
     @Test
     @Transactional
     public void getNonExistingSevadar() throws Exception {
         // Get the sevadar
-        restSevadarMockMvc.perform(get("/api/sevadars/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restSevadarMockMvc.perform(get("/api/sevadars/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -273,15 +289,20 @@ public class SevadarResourceIT {
             .address(UPDATED_ADDRESS)
             .sevaStartDate(UPDATED_SEVA_START_DATE)
             .sevaEndDate(UPDATED_SEVA_END_DATE)
+            .defaultRouls(UPDATED_DEFAULT_ROULS)
             .isValid(UPDATED_IS_VALID)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
-        restSevadarMockMvc.perform(put("/api/sevadars").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedSevadar)))
+        restSevadarMockMvc
+            .perform(
+                put("/api/sevadars")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedSevadar))
+            )
             .andExpect(status().isOk());
 
         // Validate the Sevadar in the database
@@ -294,6 +315,7 @@ public class SevadarResourceIT {
         assertThat(testSevadar.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testSevadar.getSevaStartDate()).isEqualTo(UPDATED_SEVA_START_DATE);
         assertThat(testSevadar.getSevaEndDate()).isEqualTo(UPDATED_SEVA_END_DATE);
+        assertThat(testSevadar.getDefaultRouls()).isEqualTo(UPDATED_DEFAULT_ROULS);
         assertThat(testSevadar.isIsValid()).isEqualTo(UPDATED_IS_VALID);
         assertThat(testSevadar.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testSevadar.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
@@ -310,9 +332,13 @@ public class SevadarResourceIT {
         int databaseSizeBeforeUpdate = sevadarRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restSevadarMockMvc.perform(put("/api/sevadars").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(sevadar)))
+        restSevadarMockMvc
+            .perform(
+                put("/api/sevadars")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(sevadar))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Sevadar in the database
@@ -332,8 +358,8 @@ public class SevadarResourceIT {
         int databaseSizeBeforeDelete = sevadarRepository.findAll().size();
 
         // Delete the sevadar
-        restSevadarMockMvc.perform(delete("/api/sevadars/{id}", sevadar.getId()).with(csrf())
-            .accept(MediaType.APPLICATION_JSON))
+        restSevadarMockMvc
+            .perform(delete("/api/sevadars/{id}", sevadar.getId()).with(csrf()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -354,7 +380,8 @@ public class SevadarResourceIT {
             .thenReturn(new PageImpl<>(Collections.singletonList(sevadar), PageRequest.of(0, 1), 1));
 
         // Search the sevadar
-        restSevadarMockMvc.perform(get("/api/_search/sevadars?query=id:" + sevadar.getId()))
+        restSevadarMockMvc
+            .perform(get("/api/_search/sevadars?query=id:" + sevadar.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(sevadar.getId().intValue())))
@@ -364,6 +391,7 @@ public class SevadarResourceIT {
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].sevaStartDate").value(hasItem(DEFAULT_SEVA_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].sevaEndDate").value(hasItem(DEFAULT_SEVA_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].defaultRouls").value(hasItem(DEFAULT_DEFAULT_ROULS)))
             .andExpect(jsonPath("$.[*].isValid").value(hasItem(DEFAULT_IS_VALID.booleanValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))

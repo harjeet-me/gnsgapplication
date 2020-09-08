@@ -26,6 +26,10 @@
       "fieldType": "Instant"
     },
     {
+      "fieldName": "defaultRouls",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "isValid",
       "fieldType": "Boolean"
     },

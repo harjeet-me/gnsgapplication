@@ -3,12 +3,17 @@ package org.gnsg.gms.service.impl;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.Optional;
+import java.util.Set;
 import org.gnsg.gms.domain.ASProgram;
+import org.gnsg.gms.domain.PRoul;
+import org.gnsg.gms.domain.Sevadar;
 import org.gnsg.gms.repository.ASProgramRepository;
 import org.gnsg.gms.repository.search.ASProgramSearchRepository;
 import org.gnsg.gms.service.ASProgramService;
+import org.gnsg.gms.v1.helper.PathiReportHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,9 @@ public class ASProgramServiceImpl implements ASProgramService {
 
     private final ASProgramSearchRepository aSProgramSearchRepository;
 
+    @Autowired
+    PRoulServiceImpl roulServiceImpl;
+
     public ASProgramServiceImpl(ASProgramRepository aSProgramRepository, ASProgramSearchRepository aSProgramSearchRepository) {
         this.aSProgramRepository = aSProgramRepository;
         this.aSProgramSearchRepository = aSProgramSearchRepository;
@@ -40,9 +48,28 @@ public class ASProgramServiceImpl implements ASProgramService {
     @Override
     public ASProgram save(ASProgram aSProgram) {
         log.debug("Request to save ASProgram : {}", aSProgram);
+
+        saveRoulForSehajPath(aSProgram);
         ASProgram result = aSProgramRepository.save(aSProgram);
         aSProgramSearchRepository.save(result);
         return result;
+    }
+
+    void saveRoulForSehajPath(ASProgram aSProgram) {
+        for (Sevadar granthis : aSProgram.getGranthis()) {
+            PRoul roul = new PRoul();
+            roul.setBhogDate(aSProgram.getEndDate());
+            roul.setPathiName(granthis.getName());
+            roul.setPathi(granthis);
+            roul.setDesc(aSProgram.getProgram() + "_" + aSProgram.getFamily().toUpperCase());
+            roul.setTotalRoul(Double.valueOf("" + granthis.getDefaultRouls()));
+
+            if (granthis.getDefaultRouls() != null) {
+                roul.setTotalAmt(Double.valueOf(PathiReportHelper.PathiBheta * granthis.getDefaultRouls()));
+            }
+
+            roulServiceImpl.save(roul);
+        }
     }
 
     /**

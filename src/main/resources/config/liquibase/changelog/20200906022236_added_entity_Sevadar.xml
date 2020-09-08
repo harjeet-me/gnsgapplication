@@ -34,6 +34,9 @@
             <column name="seva_end_date" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="default_rouls" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="is_valid" type="boolean">
                 <constraints nullable="true" />
             </column>
@@ -82,6 +85,7 @@
             <column name="address" type="string"/>
             <column name="seva_start_date" type="datetime"/>
             <column name="seva_end_date" type="datetime"/>
+            <column name="default_rouls" type="numeric"/>
             <column name="is_valid" type="boolean"/>
             <column name="created_date" type="datetime"/>
             <column name="created_by" type="string"/>

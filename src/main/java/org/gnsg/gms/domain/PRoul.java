@@ -1,6 +1,7 @@
 package org.gnsg.gms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -23,18 +24,23 @@ public class PRoul implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Expose
     @Column(name = "pathi_name")
     private String pathiName;
 
+    @Expose
     @Column(name = "jhi_desc")
     private String desc;
 
+    @Expose
     @Column(name = "total_roul")
     private Double totalRoul;
 
+    @Expose
     @Column(name = "total_amt")
     private Double totalAmt;
 
+    @Expose
     @Column(name = "bhog_date")
     private LocalDate bhogDate;
 
