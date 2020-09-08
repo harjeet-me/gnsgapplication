@@ -40,7 +40,7 @@ public class PRoulServiceImpl implements PRoulService {
     @Override
     public PRoul save(PRoul pRoul) {
         log.debug("Request to save PRoul : {}", pRoul);
-        pRoul.setName(pRoul.getPathi().getName());
+        pRoul.setPathName(pRoul.getPathi().getName());
         PRoul result = pRoulRepository.save(pRoul);
         pRoulSearchRepository.save(result);
         return result;
