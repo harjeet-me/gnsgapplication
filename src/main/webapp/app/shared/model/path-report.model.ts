@@ -6,6 +6,7 @@ import { PROGTYPE } from 'app/shared/model/enumerations/progtype.model';
 export interface IPathReport {
   id?: number;
   searchBy?: PATHSEARCHBY;
+  pathiName?: string;
   pathType?: PROGTYPE;
   startDate?: Moment;
   endDate?: Moment;
@@ -22,6 +23,7 @@ export class PathReport implements IPathReport {
   constructor(
     public id?: number,
     public searchBy?: PATHSEARCHBY,
+    public pathiName?: string,
     public pathType?: PROGTYPE,
     public startDate?: Moment,
     public endDate?: Moment,

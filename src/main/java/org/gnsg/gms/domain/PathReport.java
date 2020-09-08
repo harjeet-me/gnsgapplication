@@ -34,6 +34,9 @@ public class PathReport implements Serializable {
     @Column(name = "search_by")
     private PATHSEARCHBY searchBy;
 
+    @Column(name = "pathi_name")
+    private String pathiName;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "path_type")
     private PROGTYPE pathType;
@@ -87,6 +90,19 @@ public class PathReport implements Serializable {
 
     public void setSearchBy(PATHSEARCHBY searchBy) {
         this.searchBy = searchBy;
+    }
+
+    public String getPathiName() {
+        return pathiName;
+    }
+
+    public PathReport pathiName(String pathiName) {
+        this.pathiName = pathiName;
+        return this;
+    }
+
+    public void setPathiName(String pathiName) {
+        this.pathiName = pathiName;
     }
 
     public PROGTYPE getPathType() {
@@ -242,6 +258,7 @@ public class PathReport implements Serializable {
         return "PathReport{" +
             "id=" + getId() +
             ", searchBy='" + getSearchBy() + "'" +
+            ", pathiName='" + getPathiName() + "'" +
             ", pathType='" + getPathType() + "'" +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +

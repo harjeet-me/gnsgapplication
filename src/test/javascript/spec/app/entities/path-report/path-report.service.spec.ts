@@ -29,6 +29,7 @@ describe('Service Tests', () => {
       elemDefault = new PathReport(
         0,
         PATHSEARCHBY.ALL,
+        'AAAAAAA',
         PROGTYPE.SEHAJ_PATH,
         currentDate,
         currentDate,
@@ -93,6 +94,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             searchBy: 'BBBBBB',
+            pathiName: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),
@@ -126,6 +128,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             searchBy: 'BBBBBB',
+            pathiName: 'BBBBBB',
             pathType: 'BBBBBB',
             startDate: currentDate.format(DATE_FORMAT),
             endDate: currentDate.format(DATE_FORMAT),

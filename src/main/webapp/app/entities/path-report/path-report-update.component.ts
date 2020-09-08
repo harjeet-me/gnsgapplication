@@ -27,6 +27,7 @@ export class PathReportUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     searchBy: [],
+    pathiName: [],
     pathType: [],
     startDate: [],
     endDate: [],
@@ -66,6 +67,7 @@ export class PathReportUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: pathReport.id,
       searchBy: pathReport.searchBy,
+      pathiName: pathReport.pathiName,
       pathType: pathReport.pathType,
       startDate: pathReport.startDate,
       endDate: pathReport.endDate,
@@ -114,6 +116,7 @@ export class PathReportUpdateComponent implements OnInit {
       ...new PathReport(),
       id: this.editForm.get(['id'])!.value,
       searchBy: this.editForm.get(['searchBy'])!.value,
+      pathiName: this.editForm.get(['pathiName'])!.value,
       pathType: this.editForm.get(['pathType'])!.value,
       startDate: this.editForm.get(['startDate'])!.value,
       endDate: this.editForm.get(['endDate'])!.value,
