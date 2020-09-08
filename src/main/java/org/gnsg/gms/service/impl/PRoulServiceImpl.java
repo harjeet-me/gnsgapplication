@@ -1,20 +1,18 @@
 package org.gnsg.gms.service.impl;
 
-import org.gnsg.gms.service.PRoulService;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
+import java.util.Optional;
 import org.gnsg.gms.domain.PRoul;
 import org.gnsg.gms.repository.PRoulRepository;
 import org.gnsg.gms.repository.search.PRoulSearchRepository;
+import org.gnsg.gms.service.PRoulService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link PRoul}.
@@ -22,7 +20,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Service
 @Transactional
 public class PRoulServiceImpl implements PRoulService {
-
     private final Logger log = LoggerFactory.getLogger(PRoulServiceImpl.class);
 
     private final PRoulRepository pRoulRepository;
@@ -43,6 +40,7 @@ public class PRoulServiceImpl implements PRoulService {
     @Override
     public PRoul save(PRoul pRoul) {
         log.debug("Request to save PRoul : {}", pRoul);
+        pRoul.setName(pRoul.getPathi().getName());
         PRoul result = pRoulRepository.save(pRoul);
         pRoulSearchRepository.save(result);
         return result;
@@ -60,7 +58,6 @@ public class PRoulServiceImpl implements PRoulService {
         log.debug("Request to get all PRouls");
         return pRoulRepository.findAll(pageable);
     }
-
 
     /**
      * Get one pRoul by id.
@@ -99,5 +96,6 @@ public class PRoulServiceImpl implements PRoulService {
     @Transactional(readOnly = true)
     public Page<PRoul> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of PRouls for query {}", query);
-        return pRoulSearchRepository.search(queryStringQuery(query), pageable);    }
+        return pRoulSearchRepository.search(queryStringQuery(query), pageable);
+    }
 }

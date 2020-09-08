@@ -1,7 +1,8 @@
 package org.gnsg.gms.repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import org.gnsg.gms.domain.Expense;
-
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+    List<Expense> findByDateBetween(LocalDate startDate, LocalDate endDate);
 }
