@@ -5,6 +5,7 @@ import org.gnsg.gms.domain.Expense;
 import org.gnsg.gms.domain.ExpenseReport;
 import org.gnsg.gms.domain.PRoul;
 import org.gnsg.gms.domain.PathReport;
+import org.gnsg.gms.domain.enumeration.PATHSEARCHBY;
 import org.gnsg.gms.repository.ExpenseRepository;
 import org.gnsg.gms.repository.PRoulRepository;
 import org.slf4j.Logger;
@@ -20,7 +21,15 @@ public class PathiReportHelper {
     private final Logger log = LoggerFactory.getLogger(PathiReportHelper.class);
 
     public PathReport generatePathReport(PathReport pathReport) {
-        List<PRoul> rouls = pRoulRepository.findByPathiName("Harjeet");
+        List<PRoul> rouls = null;
+        if (pathReport.getSearchBy().equals(PATHSEARCHBY.PATHI_SINGH_NAME)) {
+            if (pathReport.getPathi() != null && pathReport.getPathi().getName() != null) {
+                rouls = pRoulRepository.findByPathiName(pathReport.getPathi().getName());
+            } else {
+                log.warn("  Report type is by pathi singh name but pathi not selected");
+            }
+        }
+
         log.warn("json object found   " + rouls);
         String json = CsvHelper.ListJson(rouls);
 

@@ -1,7 +1,7 @@
 package org.gnsg.gms.repository;
 
+import java.util.List;
 import org.gnsg.gms.domain.PRoul;
-
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface PRoulRepository extends JpaRepository<PRoul, Long> {
+    List<PRoul> findByPathiName(String string);
 }
