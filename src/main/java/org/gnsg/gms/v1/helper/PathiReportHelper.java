@@ -20,7 +20,7 @@ public class PathiReportHelper {
     private final Logger log = LoggerFactory.getLogger(PathiReportHelper.class);
 
     public PathReport generatePathReport(PathReport pathReport) {
-        List<PRoul> rouls = pRoulRepository.findByName("Harjeet");
+        List<PRoul> rouls = pRoulRepository.findByPathiName("Harjeet");
         log.warn("json object found   " + rouls);
         String json = CsvHelper.ListJson(rouls);
 
