@@ -1,17 +1,15 @@
 package org.gnsg.gms.service;
 
+import java.util.List;
+import java.util.Optional;
 import org.gnsg.gms.domain.PRoul;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link PRoul}.
  */
 public interface PRoulService {
-
     /**
      * Save a pRoul.
      *
@@ -27,7 +25,6 @@ public interface PRoulService {
      * @return the list of entities.
      */
     Page<PRoul> findAll(Pageable pageable);
-
 
     /**
      * Get the "id" pRoul.
@@ -48,9 +45,11 @@ public interface PRoulService {
      * Search for the pRoul corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
     Page<PRoul> search(String query, Pageable pageable);
+
+    List<PRoul> findByDesc(String desc);
 }

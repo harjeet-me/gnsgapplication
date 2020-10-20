@@ -9,6 +9,7 @@ export interface IPRoul {
   totalRoul?: number;
   totalAmt?: number;
   bhogDate?: Moment;
+  isPaid?: boolean;
   createdDate?: Moment;
   createdBy?: string;
   lastModifiedDate?: Moment;
@@ -25,11 +26,14 @@ export class PRoul implements IPRoul {
     public totalRoul?: number,
     public totalAmt?: number,
     public bhogDate?: Moment,
+    public isPaid?: boolean,
     public createdDate?: Moment,
     public createdBy?: string,
     public lastModifiedDate?: Moment,
     public lastModifiedBy?: string,
     public prog?: IASProgram,
     public pathi?: ISevadar
-  ) {}
+  ) {
+    this.isPaid = this.isPaid || false;
+  }
 }

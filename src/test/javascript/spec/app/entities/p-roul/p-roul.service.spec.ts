@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new PRoul(0, 'AAAAAAA', 'AAAAAAA', 0, 0, currentDate, currentDate, 'AAAAAAA', currentDate, 'AAAAAAA');
+      elemDefault = new PRoul(0, 'AAAAAAA', 'AAAAAAA', 0, 0, currentDate, false, currentDate, 'AAAAAAA', currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -80,6 +80,7 @@ describe('Service Tests', () => {
             totalRoul: 1,
             totalAmt: 1,
             bhogDate: currentDate.format(DATE_FORMAT),
+            isPaid: true,
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -112,6 +113,7 @@ describe('Service Tests', () => {
             totalRoul: 1,
             totalAmt: 1,
             bhogDate: currentDate.format(DATE_FORMAT),
+            isPaid: true,
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),

@@ -14,6 +14,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.expenseReport.expType" for="field_expType">Exp Type</label>
                     <select class="form-control" name="expType" formControlName="expType" id="field_expType">
+                      <option value="ALL">{{ 'gnsgapplicationApp.EXPTYPE.ALL' | translate }}</option>
                         <option value="INVOICE">{{ 'gnsgapplicationApp.EXPTYPE.INVOICE' | translate }}</option>
                         <option value="RECIEPT">{{ 'gnsgapplicationApp.EXPTYPE.RECIEPT' | translate }}</option>
                         <option value="VOUCHER">{{ 'gnsgapplicationApp.EXPTYPE.VOUCHER' | translate }}</option>

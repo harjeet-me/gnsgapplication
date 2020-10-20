@@ -2,6 +2,7 @@ package org.gnsg.gms.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.util.List;
 import java.util.Optional;
 import org.gnsg.gms.domain.PRoul;
 import org.gnsg.gms.repository.PRoulRepository;
@@ -40,6 +41,10 @@ public class PRoulServiceImpl implements PRoulService {
     @Override
     public PRoul save(PRoul pRoul) {
         log.debug("Request to save PRoul : {}", pRoul);
+
+        if (pRoul.getPathi() != null) {
+            pRoul.setPathiName(pRoul.getPathi().getName());
+        }
         PRoul result = pRoulRepository.save(pRoul);
         pRoulSearchRepository.save(result);
         return result;
@@ -96,5 +101,18 @@ public class PRoulServiceImpl implements PRoulService {
     public Page<PRoul> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of PRouls for query {}", query);
         return pRoulSearchRepository.search(queryStringQuery(query), pageable);
+    }
+
+    @Override
+    public List<PRoul> findByDesc(String desc) {
+        return pRoulRepository.findByDesc(desc);
+    }
+
+    public List<PRoul> findByPathiNameAndDesc(String name, String string) {
+        return pRoulRepository.findByPathiNameAndDesc(name, string);
+    }
+
+    public List<PRoul> findByPathiNameAndDescStartsWith(String name, String string) {
+        return pRoulRepository.findByPathiNameAndDescStartsWith(name, string);
     }
 }

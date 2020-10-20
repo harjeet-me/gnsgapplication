@@ -14,6 +14,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.revenueReport.revType" for="field_revType">Rev Type</label>
                     <select class="form-control" name="revType" formControlName="revType" id="field_revType">
+                        <option value="ALL">{{ 'gnsgapplicationApp.REVTYPE.ALL' | translate }}</option>
                         <option value="PROGRAM">{{ 'gnsgapplicationApp.REVTYPE.PROGRAM' | translate }}</option>
                         <option value="GOLAK">{{ 'gnsgapplicationApp.REVTYPE.GOLAK' | translate }}</option>
                         <option value="SEHAJ_PATH_BHETA">{{ 'gnsgapplicationApp.REVTYPE.SEHAJ_PATH_BHETA' | translate }}</option>
@@ -40,7 +41,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+             <!--    <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.revenueReport.report" for="field_report">Report</label>
                     <div>
                         <div *ngIf="editForm.get('report')!.value" class="form-text text-danger clearfix">
@@ -57,9 +58,9 @@
                            formControlName="report"/>
                     <input type="hidden" class="form-control" name="reportContentType" id="field_reportContentType"
                            formControlName="reportContentType" />
-                </div>
+                </div> -->
 
-                <div class="form-group">
+              <!--   <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.revenueReport.createdDate" for="field_createdDate">Created Date</label>
                     <div class="d-flex">
                         <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" formControlName="createdDate" placeholder="YYYY-MM-DD HH:mm"/>
@@ -83,7 +84,7 @@
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.revenueReport.lastModifiedBy" for="field_lastModifiedBy">Last Modified By</label>
                     <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
                            formControlName="lastModifiedBy"/>
-                </div>
+                </div> -->
             </div>
 
             <div>

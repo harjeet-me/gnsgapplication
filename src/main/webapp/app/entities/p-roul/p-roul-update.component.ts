@@ -33,6 +33,7 @@ export class PRoulUpdateComponent implements OnInit {
     totalRoul: [],
     totalAmt: [],
     bhogDate: [],
+    isPaid: [],
     createdDate: [],
     createdBy: [],
     lastModifiedDate: [],
@@ -73,6 +74,7 @@ export class PRoulUpdateComponent implements OnInit {
       totalRoul: pRoul.totalRoul,
       totalAmt: pRoul.totalAmt,
       bhogDate: pRoul.bhogDate,
+      isPaid: pRoul.isPaid,
       createdDate: pRoul.createdDate ? pRoul.createdDate.format(DATE_TIME_FORMAT) : null,
       createdBy: pRoul.createdBy,
       lastModifiedDate: pRoul.lastModifiedDate ? pRoul.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
@@ -105,6 +107,7 @@ export class PRoulUpdateComponent implements OnInit {
       totalRoul: this.editForm.get(['totalRoul'])!.value,
       totalAmt: this.editForm.get(['totalAmt'])!.value,
       bhogDate: this.editForm.get(['bhogDate'])!.value,
+      isPaid: this.editForm.get(['isPaid'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
         : undefined,

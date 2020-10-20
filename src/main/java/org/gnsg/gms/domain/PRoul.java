@@ -44,6 +44,10 @@ public class PRoul implements Serializable {
     @Column(name = "bhog_date")
     private LocalDate bhogDate;
 
+    @Expose
+    @Column(name = "is_paid")
+    private Boolean isPaid;
+
     @Column(name = "created_date")
     private Instant createdDate;
 
@@ -136,6 +140,19 @@ public class PRoul implements Serializable {
 
     public void setBhogDate(LocalDate bhogDate) {
         this.bhogDate = bhogDate;
+    }
+
+    public Boolean isIsPaid() {
+        return isPaid;
+    }
+
+    public PRoul isPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
+        return this;
+    }
+
+    public void setIsPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 
     public Instant getCreatedDate() {
@@ -244,6 +261,7 @@ public class PRoul implements Serializable {
             ", totalRoul=" + getTotalRoul() +
             ", totalAmt=" + getTotalAmt() +
             ", bhogDate='" + getBhogDate() + "'" +
+            ", isPaid='" + isIsPaid() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", lastModifiedDate='" + getLastModifiedDate() + "'" +

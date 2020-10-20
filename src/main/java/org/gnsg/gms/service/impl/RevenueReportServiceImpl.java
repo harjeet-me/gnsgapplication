@@ -1,21 +1,21 @@
 package org.gnsg.gms.service.impl;
 
-import org.gnsg.gms.service.RevenueReportService;
-import org.gnsg.gms.domain.RevenueReport;
-import org.gnsg.gms.repository.RevenueReportRepository;
-import org.gnsg.gms.repository.search.RevenueReportSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.gnsg.gms.domain.RevenueReport;
+import org.gnsg.gms.repository.RevenueReportRepository;
+import org.gnsg.gms.repository.search.RevenueReportSearchRepository;
+import org.gnsg.gms.service.RevenueReportService;
+import org.gnsg.gms.v1.helper.RevenueReportHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link RevenueReport}.
@@ -23,14 +23,19 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Service
 @Transactional
 public class RevenueReportServiceImpl implements RevenueReportService {
-
     private final Logger log = LoggerFactory.getLogger(RevenueReportServiceImpl.class);
 
     private final RevenueReportRepository revenueReportRepository;
 
     private final RevenueReportSearchRepository revenueReportSearchRepository;
 
-    public RevenueReportServiceImpl(RevenueReportRepository revenueReportRepository, RevenueReportSearchRepository revenueReportSearchRepository) {
+    @Autowired
+    RevenueReportHelper revenueReportHelper;
+
+    public RevenueReportServiceImpl(
+        RevenueReportRepository revenueReportRepository,
+        RevenueReportSearchRepository revenueReportSearchRepository
+    ) {
         this.revenueReportRepository = revenueReportRepository;
         this.revenueReportSearchRepository = revenueReportSearchRepository;
     }
@@ -38,6 +43,7 @@ public class RevenueReportServiceImpl implements RevenueReportService {
     @Override
     public RevenueReport save(RevenueReport revenueReport) {
         log.debug("Request to save RevenueReport : {}", revenueReport);
+        revenueReport = revenueReportHelper.generateRevenueReport(revenueReport);
         RevenueReport result = revenueReportRepository.save(revenueReport);
         revenueReportSearchRepository.save(result);
         return result;
@@ -49,7 +55,6 @@ public class RevenueReportServiceImpl implements RevenueReportService {
         log.debug("Request to get all RevenueReports");
         return revenueReportRepository.findAll();
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -71,6 +76,6 @@ public class RevenueReportServiceImpl implements RevenueReportService {
         log.debug("Request to search RevenueReports for query {}", query);
         return StreamSupport
             .stream(revenueReportSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }

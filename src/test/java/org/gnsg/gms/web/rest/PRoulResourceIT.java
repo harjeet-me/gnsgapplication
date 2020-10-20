@@ -58,6 +58,9 @@ public class PRoulResourceIT {
     private static final LocalDate DEFAULT_BHOG_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_BHOG_DATE = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Boolean DEFAULT_IS_PAID = false;
+    private static final Boolean UPDATED_IS_PAID = true;
+
     private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -105,6 +108,7 @@ public class PRoulResourceIT {
             .totalRoul(DEFAULT_TOTAL_ROUL)
             .totalAmt(DEFAULT_TOTAL_AMT)
             .bhogDate(DEFAULT_BHOG_DATE)
+            .isPaid(DEFAULT_IS_PAID)
             .createdDate(DEFAULT_CREATED_DATE)
             .createdBy(DEFAULT_CREATED_BY)
             .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE)
@@ -125,6 +129,7 @@ public class PRoulResourceIT {
             .totalRoul(UPDATED_TOTAL_ROUL)
             .totalAmt(UPDATED_TOTAL_AMT)
             .bhogDate(UPDATED_BHOG_DATE)
+            .isPaid(UPDATED_IS_PAID)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
@@ -157,6 +162,7 @@ public class PRoulResourceIT {
         assertThat(testPRoul.getTotalRoul()).isEqualTo(DEFAULT_TOTAL_ROUL);
         assertThat(testPRoul.getTotalAmt()).isEqualTo(DEFAULT_TOTAL_AMT);
         assertThat(testPRoul.getBhogDate()).isEqualTo(DEFAULT_BHOG_DATE);
+        assertThat(testPRoul.isIsPaid()).isEqualTo(DEFAULT_IS_PAID);
         assertThat(testPRoul.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testPRoul.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testPRoul.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
@@ -206,6 +212,7 @@ public class PRoulResourceIT {
             .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL.doubleValue())))
             .andExpect(jsonPath("$.[*].totalAmt").value(hasItem(DEFAULT_TOTAL_AMT.doubleValue())))
             .andExpect(jsonPath("$.[*].bhogDate").value(hasItem(DEFAULT_BHOG_DATE.toString())))
+            .andExpect(jsonPath("$.[*].isPaid").value(hasItem(DEFAULT_IS_PAID.booleanValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))
@@ -229,6 +236,7 @@ public class PRoulResourceIT {
             .andExpect(jsonPath("$.totalRoul").value(DEFAULT_TOTAL_ROUL.doubleValue()))
             .andExpect(jsonPath("$.totalAmt").value(DEFAULT_TOTAL_AMT.doubleValue()))
             .andExpect(jsonPath("$.bhogDate").value(DEFAULT_BHOG_DATE.toString()))
+            .andExpect(jsonPath("$.isPaid").value(DEFAULT_IS_PAID.booleanValue()))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()))
@@ -260,6 +268,7 @@ public class PRoulResourceIT {
             .totalRoul(UPDATED_TOTAL_ROUL)
             .totalAmt(UPDATED_TOTAL_AMT)
             .bhogDate(UPDATED_BHOG_DATE)
+            .isPaid(UPDATED_IS_PAID)
             .createdDate(UPDATED_CREATED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE)
@@ -283,6 +292,7 @@ public class PRoulResourceIT {
         assertThat(testPRoul.getTotalRoul()).isEqualTo(UPDATED_TOTAL_ROUL);
         assertThat(testPRoul.getTotalAmt()).isEqualTo(UPDATED_TOTAL_AMT);
         assertThat(testPRoul.getBhogDate()).isEqualTo(UPDATED_BHOG_DATE);
+        assertThat(testPRoul.isIsPaid()).isEqualTo(UPDATED_IS_PAID);
         assertThat(testPRoul.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testPRoul.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testPRoul.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
@@ -353,6 +363,7 @@ public class PRoulResourceIT {
             .andExpect(jsonPath("$.[*].totalRoul").value(hasItem(DEFAULT_TOTAL_ROUL.doubleValue())))
             .andExpect(jsonPath("$.[*].totalAmt").value(hasItem(DEFAULT_TOTAL_AMT.doubleValue())))
             .andExpect(jsonPath("$.[*].bhogDate").value(hasItem(DEFAULT_BHOG_DATE.toString())))
+            .andExpect(jsonPath("$.[*].isPaid").value(hasItem(DEFAULT_IS_PAID.booleanValue())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())))

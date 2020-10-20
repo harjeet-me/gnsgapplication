@@ -1,21 +1,21 @@
 package org.gnsg.gms.service.impl;
 
-import org.gnsg.gms.service.ExpenseReportService;
-import org.gnsg.gms.domain.ExpenseReport;
-import org.gnsg.gms.repository.ExpenseReportRepository;
-import org.gnsg.gms.repository.search.ExpenseReportSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.gnsg.gms.domain.ExpenseReport;
+import org.gnsg.gms.repository.ExpenseReportRepository;
+import org.gnsg.gms.repository.search.ExpenseReportSearchRepository;
+import org.gnsg.gms.service.ExpenseReportService;
+import org.gnsg.gms.v1.helper.ExpenseReportHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link ExpenseReport}.
@@ -23,14 +23,19 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @Service
 @Transactional
 public class ExpenseReportServiceImpl implements ExpenseReportService {
-
     private final Logger log = LoggerFactory.getLogger(ExpenseReportServiceImpl.class);
 
     private final ExpenseReportRepository expenseReportRepository;
 
     private final ExpenseReportSearchRepository expenseReportSearchRepository;
 
-    public ExpenseReportServiceImpl(ExpenseReportRepository expenseReportRepository, ExpenseReportSearchRepository expenseReportSearchRepository) {
+    @Autowired
+    ExpenseReportHelper expenseReportHelper;
+
+    public ExpenseReportServiceImpl(
+        ExpenseReportRepository expenseReportRepository,
+        ExpenseReportSearchRepository expenseReportSearchRepository
+    ) {
         this.expenseReportRepository = expenseReportRepository;
         this.expenseReportSearchRepository = expenseReportSearchRepository;
     }
@@ -38,6 +43,7 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
     @Override
     public ExpenseReport save(ExpenseReport expenseReport) {
         log.debug("Request to save ExpenseReport : {}", expenseReport);
+        expenseReport = expenseReportHelper.generateExpenseReport(expenseReport);
         ExpenseReport result = expenseReportRepository.save(expenseReport);
         expenseReportSearchRepository.save(result);
         return result;
@@ -49,7 +55,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         log.debug("Request to get all ExpenseReports");
         return expenseReportRepository.findAll();
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -71,6 +76,6 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
         log.debug("Request to search ExpenseReports for query {}", query);
         return StreamSupport
             .stream(expenseReportSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }

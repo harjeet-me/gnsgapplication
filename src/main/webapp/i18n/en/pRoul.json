@@ -22,6 +22,7 @@
       "totalRoul": "Total Roul",
       "totalAmt": "Total Amt",
       "bhogDate": "Bhog Date",
+      "isPaid": "Is Paid",
       "createdDate": "Created Date",
       "createdBy": "Created By",
       "lastModifiedDate": "Last Modified Date",

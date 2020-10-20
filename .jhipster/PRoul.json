@@ -22,6 +22,10 @@
       "fieldType": "LocalDate"
     },
     {
+      "fieldName": "isPaid",
+      "fieldType": "Boolean"
+    },
+    {
       "fieldName": "createdDate",
       "fieldType": "Instant"
     },

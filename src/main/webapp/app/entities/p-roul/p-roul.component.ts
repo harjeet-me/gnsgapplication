@@ -93,7 +93,7 @@ export class PRoulComponent implements OnInit, OnDestroy {
       const prevSortSplit = prevSort?.split(',');
       if (prevSortSplit) {
         this.predicate = prevSortSplit[0];
-        this.ascending = prevSortSplit[1] === 'asc';
+        this.ascending = prevSortSplit[1] === 'dsc';
       }
       if (prevPage && +prevPage !== this.page) {
         this.ngbPaginationPage = +prevPage;

@@ -46,10 +46,6 @@
                     <th scope="col"  jhiSortBy="totalRoul"><span jhiTranslate="gnsgapplicationApp.pRoul.totalRoul">Total Roul</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalAmt"><span jhiTranslate="gnsgapplicationApp.pRoul.totalAmt">Total Amt</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bhogDate"><span jhiTranslate="gnsgapplicationApp.pRoul.bhogDate">Bhog Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="gnsgapplicationApp.pRoul.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="gnsgapplicationApp.pRoul.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="gnsgapplicationApp.pRoul.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="gnsgapplicationApp.pRoul.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="prog.desc"><span jhiTranslate="gnsgapplicationApp.pRoul.prog">Prog</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="pathi.name"><span jhiTranslate="gnsgapplicationApp.pRoul.pathi">Pathi</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
@@ -63,10 +59,7 @@
                     <td>{{ pRoul.totalRoul }}</td>
                     <td>{{ pRoul.totalAmt }}</td>
                     <td>{{ pRoul.bhogDate | date:'mediumDate' }}</td>
-                    <td>{{ pRoul.createdDate | date:'medium' }}</td>
-                    <td>{{ pRoul.createdBy }}</td>
-                    <td>{{ pRoul.lastModifiedDate | date:'medium' }}</td>
-                    <td>{{ pRoul.lastModifiedBy }}</td>
+                   
                     <td>
                         <div *ngIf="pRoul.prog">
                             <a [routerLink]="['/as-program', pRoul.prog?.id, 'view']" >{{ pRoul.prog?.desc }}</a>

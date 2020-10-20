@@ -2,6 +2,7 @@
   "gnsgapplicationApp": {
     "EXPTYPE": {
       "null": "",
+      "ALL": "ALL",
       "INVOICE": "INVOICE",
       "RECIEPT": "RECIEPT",
       "VOUCHER": "VOUCHER"

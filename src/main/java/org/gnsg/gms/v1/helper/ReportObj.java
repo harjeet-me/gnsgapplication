@@ -15,6 +15,8 @@ public class ReportObj {
 
     private Double reportTotal;
 
+    private Double roulTotal;
+
     public ReportObj() {}
 
     public ReportObj(String reportType, LocalDate startDate, LocalDate endDate, Double reportTotal) {
@@ -54,5 +56,13 @@ public class ReportObj {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public Double getRoulTotal() {
+        return roulTotal;
+    }
+
+    public void setRoulTotal(Double roulTotal) {
+        this.roulTotal = roulTotal;
     }
 }

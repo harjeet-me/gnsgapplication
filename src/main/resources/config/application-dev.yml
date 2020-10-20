@@ -48,6 +48,10 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
+      data-source-properties:
+        useUnicode: true
+        characterEncoding: UTF-8
+
   h2:
     console:
       enabled: false

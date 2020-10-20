@@ -1,11 +1,11 @@
-id;pathi_name;jhi_desc;total_roul;total_amt;bhog_date;created_date;created_by;last_modified_date;last_modified_by
-1;context-sensitive New York lime;Metal;56050;82882;2020-09-05;2020-09-05T12:57:01;Unbranded;2020-09-05T21:25:02;Computer
-2;rich;yellow JSON;24180;7092;2020-09-05;2020-09-05T11:21:54;compressing Berkshire USB;2020-09-05T22:23:19;Sausages orchid Buckinghamshire
-3;input 24/365;Montana;95487;402;2020-09-05;2020-09-05T03:53:08;lime Developer Brand;2020-09-05T15:36:52;synthesize Open-source Hawaii
-4;Interactions Beauty Product;SDR;23861;1099;2020-09-06;2020-09-05T18:07:04;leverage Buckinghamshire Berkshire;2020-09-05T03:41:03;orchestration Savings Account bluetooth
-5;Chips internet solution Executive;driver;56757;99397;2020-09-05;2020-09-05T17:44:41;Delaware;2020-09-05T08:33:29;Internal
-6;Investor Kwanza;Analyst optical Up-sized;10692;44946;2020-09-05;2020-09-05T12:08:01;South Carolina knowledge user;2020-09-06T00:19:37;Games Executive Paradigm
-7;eco-centric;deploy haptic;68769;40221;2020-09-05;2020-09-06T01:12:13;Avon Paradigm;2020-09-05T18:49:31;connect
-8;Berkshire port Developer;back up Sleek Plastic Bacon Personal Loan Account;91145;19254;2020-09-05;2020-09-05T08:00:38;leading-edge;2020-09-05T05:51:22;Investment Account static
-9;microchip;hierarchy synthesizing;25821;57834;2020-09-05;2020-09-05T13:48:55;copy Forks;2020-09-05T04:12:18;zero administration
-10;Handmade;synergize New Jersey generate;31013;81568;2020-09-05;2020-09-05T22:21:58;Toys;2020-09-05T22:09:19;Sausages interface Money Market Account
+id;pathi_name;jhi_desc;total_roul;total_amt;bhog_date;is_paid;created_date;created_by;last_modified_date;last_modified_by
+1;context-sensitive New York lime;Metal;56050;82882;2020-09-05;true;2020-09-05T19:29:31;Dynamic;2020-09-05T23:07:58;Rustic
+2;Orchestrator yellow;Future Refined Rubber Salad compressing;50240;36799;2020-09-05;true;2020-09-05T22:23:19;Sausages orchid Buckinghamshire;2020-09-05T11:15:02;navigate enable Montana
+3;Computers Creative lime;UIC-Franc Practical Fresh Cheese Kroon;52049;59144;2020-09-05;true;2020-09-05T03:59:53;Beauty Product Clothing;2020-09-05T04:08:20;Movies
+4;PCI Hat;Berkshire Accountability orchestration;61356;18109;2020-09-05;true;2020-09-05T07:27:58;Specialist;2020-09-05T13:37:18;Rustic driver Wyoming
+5;leading-edge Delaware compress;navigating Investor Kwanza;71718;99106;2020-09-05;true;2020-09-05T06:20:36;Security;2020-09-05T15:36:21;Investment Account
+6;virtual California;Games Executive Paradigm;18265;28555;2020-09-05;true;2020-09-05T16:52:32;haptic Yen;2020-09-05T16:34:39;syndicate
+7;Paradigm;ivory;46018;81434;2020-09-05;false;2020-09-05T08:43:23;Developer;2020-09-05T09:29:48;Small Granite Pants bluetooth Chief
+8;PNG;leading-edge;85570;48903;2020-09-05;false;2020-09-05T19:42:50;Metal violet hierarchy;2020-09-05T06:22:37;Organized Macedonia Springs
+9;Forks;Gorgeous Frozen Keyboard Handmade redundant;41594;55611;2020-09-05;true;2020-09-05T13:50:26;parsing;2020-09-05T22:21:58;Toys
+10;digital;interface Money Market Account maroon;95988;27246;2020-09-05;false;2020-09-05T13:42:30;Grocery Mouse;2020-09-05T03:36:57;Bermuda

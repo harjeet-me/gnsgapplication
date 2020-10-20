@@ -31,7 +31,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.totalAmt" for="field_totalAmt">Total Amt</label>
-                    <input type="number" class="form-control" name="totalAmt" id="field_totalAmt"
+                    <input type="number" value="editForm.get(['totalRoul'])!.value * 20"  class="form-control" name="totalAmt" id="field_totalAmt"
                            formControlName="totalAmt"/>
                 </div>
 
@@ -43,6 +43,12 @@
                             <button type="button" class="btn btn-secondary" (click)="bhogDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gnsgapplicationApp.pRoul.isPaid" for="field_isPaid">Is Paid</label>
+                    <input type="checkbox" class="form-control" name="isPaid" id="field_isPaid"
+                           formControlName="isPaid"/>
                 </div>
 
                 <div class="form-group">
